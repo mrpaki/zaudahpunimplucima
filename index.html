@@ -941,7 +941,7 @@
 
       <div class="foot-bottom">
         <!-- ▶ ZAMENI godinom -->
-        <p>© [Godina] Ana Pupić. Stranica kreirana u humanitarne svrhe.</p>
+        <p>© <span id="footer-year"></span> Ana Pupić. Stranica kreirana u humanitarne svrhe.</p>
         <p class="foot-disc">Sva prikupljena sredstva idu direktno na lečenje i nabavku lekova. Donacije su dobrovoljne i ne podrazumevaju nikakvu naknadu niti pravo na povraćaj. Zahvaljujemo se svim donatorima na nesebičnoj podršci.</p>
       </div>
     </div>
@@ -993,6 +993,7 @@
 
   document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el => io.observe(el));
   document.querySelector('#hero .fi')?.classList.add('on');
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
   renderQR(500);
 
   /* Copy to clipboard */
