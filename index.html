@@ -1027,11 +1027,12 @@
 
   /* ── IPS QR kod (api.qrserver.com — nema JS biblioteke) ────── */
   function buildIPS(amount) {
+    // NBS IPS QR standard — decimalni separator je ZAREZ, ne tačka
     return [
       'K:PR','V:01','C:1',
       'R:325930050019223104',
-      'N:Ana Pupić',
-      'I:RSD' + amount + '.00',
+      'N:Ana Pupic',
+      'I:RSD' + amount + ',00',
       'SF:189',
       'S:Donacija za lecenje Ane Pupic'
     ].join('|');
