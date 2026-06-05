@@ -1,0 +1,802 @@
+<?php
+/**
+ * Template Name: Humanitarna Stranica
+ * Template Post Type: page
+ *
+ * UPUTSTVO ZA INSTALACIJU:
+ * 1. Kopiraj ovaj fajl u folder aktivne teme:
+ *    wp-content/themes/[ime-teme]/humanitarna-template.php
+ * 2. U WordPress adminu: Pages > Add New
+ * 3. U desnom panelu: Page Attributes > Template > izaberi "Humanitarna Stranica"
+ * 4. Objavi stranicu
+ *
+ * ELEMENTOR: Ako koristiš Elementor, u Page Settings postavi:
+ *    Page Layout > Elementor Canvas
+ *    (to sakriva header i footer teme)
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+  <meta charset="<?php bloginfo( 'charset' ); ?>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?php the_title(); ?> — <?php bloginfo( 'name' ); ?></title>
+
+  <?php
+  // Open Graph meta tagovi — prilagodi URL i sliku
+  $page_url = get_permalink();
+  $og_image = get_template_directory_uri() . '/images/ana-pupic-og.jpg';
+  // Ako koristiš featured image: $og_image = get_the_post_thumbnail_url(get_the_ID(), 'large');
+  ?>
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="<?php echo esc_url( $page_url ); ?>">
+  <meta property="og:title"       content="Zajedno možemo više — Ana Pupić">
+  <meta property="og:description" content="Pomozite Ani Pupić u borbi protiv raka pluća. Pratite zdravstvene novosti i podržite nas donacijom.">
+  <meta property="og:image"       content="<?php echo esc_url( $og_image ); ?>">
+  <meta property="og:locale"      content="sr_RS">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      content="Zajedno možemo više — Ana Pupić">
+  <meta name="twitter:description" content="Pomozite Ani Pupić u borbi protiv raka pluća.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+
+  <?php wp_head(); ?>
+
+  <style>
+    /* ── Reset teme — sprečava da tema "zagadi" dizajn ── */
+    body.humanitarna-page {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    body.humanitarna-page #page,
+    body.humanitarna-page .site,
+    body.humanitarna-page header.site-header,
+    body.humanitarna-page footer.site-footer,
+    body.humanitarna-page #wpadminbar + * { /* ne diramo admin bar */
+      display: block;
+    }
+    /* Sakrij header i footer teme ako Elementor Canvas nije dostupan */
+    body.humanitarna-page > header:not(#nav),
+    body.humanitarna-page > footer:not(footer[role="contentinfo"]),
+    body.humanitarna-page .site-header,
+    body.humanitarna-page .site-footer,
+    body.humanitarna-page #masthead,
+    body.humanitarna-page #colophon {
+      display: none !important;
+    }
+
+    /* ── CSS Variables ── */
+    :root {
+      --cream:       #FAF7F2;
+      --warm-white:  #FFFFFF;
+      --teal:        #2A7C7C;
+      --teal-light:  #3D9E9E;
+      --amber:       #D4882A;
+      --amber-light: #F0A94A;
+      --text-dark:   #2C2C2C;
+      --text-muted:  #6B6B6B;
+      --card-bg:     #F5F0E8;
+      --font-h: 'Lora', Georgia, serif;
+      --font-b: 'Source Sans 3', system-ui, sans-serif;
+      --ease: all 0.3s ease;
+      --sh-sm: 0 2px 10px rgba(0,0,0,.07);
+      --sh-md: 0 4px 20px rgba(0,0,0,.11);
+      --r-sm: 8px;
+      --r-md: 16px;
+      --r-lg: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body.humanitarna-page { font-family: var(--font-b); background: var(--cream); color: var(--text-dark); line-height: 1.7; overflow-x: hidden; }
+    img  { max-width: 100%; display: block; }
+    a    { color: inherit; text-decoration: none; }
+    ul   { list-style: none; }
+    button { font-family: var(--font-b); cursor: pointer; }
+
+    .fi   { opacity: 0; transform: translateY(28px);  transition: opacity .7s ease, transform .7s ease; }
+    .fi-l { opacity: 0; transform: translateX(-28px); transition: opacity .7s ease, transform .7s ease; }
+    .fi-r { opacity: 0; transform: translateX(28px);  transition: opacity .7s ease, transform .7s ease; }
+    .fi.on, .fi-l.on, .fi-r.on { opacity: 1; transform: none; }
+    .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
+
+    h1,h2,h3,h4 { font-family: var(--font-h); line-height: 1.25; }
+    h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); }
+    p  { margin-bottom: 1rem; }
+    p:last-child { margin-bottom: 0; }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+    section    { padding: 5rem 0; }
+
+    .s-tag {
+      display: inline-block; font-size: .75rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--teal); background: rgba(42,124,124,.1);
+      padding: .3rem .85rem; border-radius: 50px; margin-bottom: .9rem;
+    }
+    .s-bar { width: 52px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--teal), var(--amber)); margin: .9rem 0 2rem; }
+    .s-bar.center { margin-left: auto; margin-right: auto; }
+    .s-sub { color: var(--text-muted); max-width: 520px; font-size: 1.05rem; }
+    .s-sub.center { margin: 0 auto; text-align: center; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .85rem 1.75rem; border-radius: 50px;
+      font-size: .97rem; font-weight: 700; border: 2px solid transparent;
+      transition: var(--ease); white-space: nowrap;
+    }
+    .btn-primary { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .btn-primary:hover { background: var(--teal-light); border-color: var(--teal-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(42,124,124,.3); }
+    .btn-amber { background: var(--amber); color: #fff; }
+    .btn-amber:hover { background: var(--amber-light); transform: translateY(-2px); }
+    .btn-donate { background: linear-gradient(135deg, var(--amber), var(--amber-light)); color: #fff; animation: pulse 2.8s ease-in-out infinite; }
+    .btn-donate:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(212,136,42,.5); animation: none; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(212,136,42,.4); }
+      50%      { box-shadow: 0 0 0 14px rgba(212,136,42,0); }
+    }
+    .btn-sm { padding: .55rem 1.2rem; font-size: .88rem; }
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* NAV */
+    #nav { position: sticky; top: 0; z-index: 900; background: rgba(250,247,242,.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(42,124,124,.08); transition: box-shadow .3s; }
+    #nav.scrolled { box-shadow: var(--sh-sm); }
+    .nav-row { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .nav-logo { font-family: var(--font-h); font-size: 1.45rem; font-weight: 700; color: var(--teal); letter-spacing: -.02em; }
+    .nav-logo span { color: var(--amber); }
+    .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+    .nav-links a { font-size: .93rem; font-weight: 600; color: var(--text-dark); position: relative; transition: color .2s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--teal); transition: width .25s; }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links .nav-cta { background: var(--amber); color: #fff !important; padding: .45rem 1.1rem; border-radius: 50px; }
+    .nav-links .nav-cta::after { display: none; }
+    .nav-links .nav-cta:hover { background: var(--amber-light); }
+    .ham { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 6px; }
+    .ham span { display: block; width: 24px; height: 2px; background: var(--text-dark); border-radius: 2px; transition: var(--ease); }
+    .ham.on span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .ham.on span:nth-child(2) { opacity: 0; }
+    .ham.on span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    #mob { display: none; position: fixed; inset: 68px 0 0; background: var(--cream); z-index: 850; flex-direction: column; padding: 2rem 1.5rem; }
+    #mob.on { display: flex; }
+    .mob-link { font-family: var(--font-h); font-size: 1.4rem; font-weight: 500; padding: 1rem 0; border-bottom: 1px solid rgba(42,124,124,.1); color: var(--text-dark); transition: color .2s; }
+    .mob-link:hover { color: var(--teal); }
+    .mob-donate { margin-top: 1.5rem; background: linear-gradient(135deg, var(--amber), var(--amber-light)); color: #fff; padding: 1rem; border-radius: 50px; font-weight: 700; text-align: center; }
+
+    /* HERO */
+    #hero { min-height: 100vh; background: linear-gradient(140deg, #FAF7F2 0%, #FEF0DC 45%, #FBE3CA 75%, #F8D9BD 100%); display: flex; align-items: center; position: relative; overflow: hidden; padding: 7rem 0 5rem; }
+    .hero-motif { position: absolute; right: -60px; top: 50%; transform: translateY(-50%); width: min(520px, 55vw); opacity: .06; pointer-events: none; }
+    .hero-body { position: relative; z-index: 1; max-width: 680px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.1rem; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 2px; background: var(--amber); border-radius: 2px; }
+    .hero-title { font-weight: 700; line-height: 1.15; margin-bottom: .6rem; color: var(--text-dark); }
+    .hero-title span { color: var(--teal); }
+    .hero-name { font-family: var(--font-h); font-size: clamp(1rem,2vw,1.3rem); color: var(--amber); font-style: italic; margin-bottom: 1.3rem; }
+    .hero-desc { font-size: 1.08rem; color: var(--text-muted); max-width: 480px; margin-bottom: 2.25rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(42,124,124,.14); flex-wrap: wrap; }
+    .stat-n { font-family: var(--font-h); font-size: 1.7rem; font-weight: 700; color: var(--teal); display: block; }
+    .stat-l { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+
+    /* PRIČA */
+    #prica { background: var(--warm-white); }
+    .story-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: center; }
+    .photo-frame { position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3/4; max-width: 360px; border: 3px solid var(--amber-light); box-shadow: var(--sh-md); }
+    .photo-inner { width: 100%; height: 100%; background: linear-gradient(135deg, var(--card-bg), #EDE5D8); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .9rem; }
+    .photo-inner svg { color: var(--amber-light); opacity: .55; }
+    .photo-lbl { font-size: .82rem; color: var(--text-muted); text-align: center; padding: 0 1.2rem; line-height: 1.5; }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .pull-q { position: relative; background: rgba(42,124,124,.07); border-left: 4px solid var(--teal); border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 1.2rem 1.5rem; margin: 1.5rem 0; }
+    .pull-q p { font-family: var(--font-h); font-style: italic; color: var(--teal); font-size: 1.02rem; line-height: 1.6; }
+    .pull-q::before { content: '"'; font-family: var(--font-h); font-size: 4.5rem; color: var(--teal); opacity: .15; position: absolute; top: -14px; left: 8px; line-height: 1; }
+
+    /* ZDRAVLJE */
+    #zdravlje { background: var(--cream); }
+    .h-center { text-align: center; }
+    .timeline { position: relative; max-width: 780px; margin: 0 auto; }
+    .timeline::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(var(--teal), var(--amber)); opacity: .25; }
+    .tl-item { display: flex; gap: 1.75rem; margin-bottom: 1.4rem; }
+    .tl-dot { flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; background: var(--warm-white); border: 3px solid var(--teal); display: flex; align-items: center; justify-content: center; z-index: 1; box-shadow: var(--sh-sm); color: var(--teal); }
+    .tl-card { flex: 1; background: var(--warm-white); border-radius: var(--r-md); padding: 1.4rem 1.6rem; box-shadow: var(--sh-sm); border: 1px solid rgba(42,124,124,.08); transition: var(--ease); }
+    .tl-card:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
+    .tl-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .4rem; margin-bottom: .7rem; }
+    .tl-date { font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); }
+    .tl-card h4 { font-size: 1rem; margin-bottom: .4rem; }
+    .tl-card p  { font-size: .93rem; color: var(--text-muted); }
+    .badge { display: inline-flex; align-items: center; gap: .3rem; font-size: .72rem; font-weight: 700; padding: .22rem .7rem; border-radius: 50px; }
+    .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .badge-t { background: rgba(212,136,42,.12); color: var(--amber); }
+    .badge-s { background: rgba(42,124,124,.12); color: var(--teal); }
+    .badge-h { background: rgba(180,50,50,.1); color: #B43232; }
+    .health-note { text-align: center; margin-top: 2rem; font-size: .85rem; color: var(--text-muted); font-style: italic; }
+
+    /* KAKO POMOĆI */
+    #kako-pomoci { background: var(--warm-white); }
+    .help-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .help-card { background: var(--card-bg); border-radius: var(--r-md); padding: 2.25rem 1.75rem; text-align: center; border: 1px solid rgba(42,124,124,.1); transition: var(--ease); }
+    .help-card:hover { transform: translateY(-5px); box-shadow: var(--sh-md); border-color: var(--teal-light); }
+    .help-icon { font-size: 2.6rem; display: block; margin-bottom: .9rem; }
+    .help-card h3 { margin-bottom: .5rem; }
+    .help-card p  { font-size: .94rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
+
+    /* DONACIJE */
+    #donacije { background: linear-gradient(140deg, #F5F0E8, var(--cream)); }
+    .don-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .pay-box { background: var(--warm-white); border-radius: var(--r-md); padding: 2rem; box-shadow: var(--sh-sm); border: 1px solid rgba(42,124,124,.1); }
+    .pay-box h3 { font-size: 1.15rem; display: flex; align-items: center; gap: .5rem; margin-bottom: 1.5rem; color: var(--text-dark); }
+    .pay-row { margin-bottom: 1.1rem; }
+    .pay-label { font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .35rem; }
+    .pay-field { display: flex; align-items: center; gap: .6rem; background: var(--cream); border-radius: var(--r-sm); padding: .7rem 1rem; border: 1px solid rgba(42,124,124,.15); }
+    .pay-val { flex: 1; font-family: 'Courier New', monospace; font-size: .93rem; font-weight: 700; letter-spacing: .04em; color: var(--text-dark); }
+    .copy-btn { background: none; border: none; display: flex; align-items: center; gap: .3rem; color: var(--teal); font-size: .78rem; font-weight: 700; padding: .25rem .5rem; border-radius: 5px; transition: var(--ease); }
+    .copy-btn:hover { background: rgba(42,124,124,.1); }
+    .copy-btn.ok { color: #2E7D32; }
+    .paypal-field { display: flex; align-items: center; gap: .6rem; background: #EEF4FF; border-radius: var(--r-sm); padding: .7rem 1rem; border: 1px solid rgba(0,80,180,.12); margin-bottom: 1.1rem; }
+    .pp-logo { font-size: .9rem; font-weight: 900; color: #003087; }
+    .pp-logo span { color: #009CDE; }
+    .pay-section-lbl {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--warm-white);
+      background: var(--teal); border-radius: var(--r-sm);
+      padding: .35rem .85rem; margin: 1.25rem 0 .75rem;
+    }
+    .pay-section-lbl.eur { background: #1a5276; }
+    .pay-section-lbl.tel { background: var(--amber); }
+    .tel-row {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--cream); border-radius: var(--r-sm);
+      padding: .7rem 1rem; border: 1px solid rgba(42,124,124,.15);
+      margin-bottom: .6rem; text-decoration: none;
+    }
+    .tel-row svg { color: var(--teal); flex-shrink: 0; }
+    .tel-link { font-family: 'Courier New', monospace; font-size: .97rem; font-weight: 700; color: var(--text-dark); letter-spacing: .04em; flex: 1; }
+    .tel-link:hover { color: var(--teal); text-decoration: underline; }
+    .qr-zone { background: var(--cream); border: 2px solid rgba(42,124,124,.2); border-radius: var(--r-md); padding: 1.5rem; text-align: center; }
+    .qr-zone-title { font-family: var(--font-h); font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem; }
+    .qr-amounts { display: grid; grid-template-columns: repeat(4,1fr); gap: .4rem; margin-bottom: .75rem; }
+    .qr-amt { padding: .45rem .25rem; border: 2px solid rgba(42,124,124,.2); border-radius: var(--r-sm); background: var(--warm-white); font-family: var(--font-b); font-size: .8rem; font-weight: 700; color: var(--text-dark); cursor: pointer; transition: var(--ease); }
+    .qr-amt:hover { border-color: var(--teal); color: var(--teal); background: rgba(42,124,124,.06); }
+    .qr-amt.active { border-color: var(--teal); background: var(--teal); color: #fff; }
+    .qr-custom { display: flex; gap: .4rem; margin-bottom: 1.1rem; }
+    .qr-custom input { flex: 1; padding: .5rem .75rem; border: 2px solid rgba(42,124,124,.2); border-radius: var(--r-sm); font-family: var(--font-b); font-size: .88rem; background: var(--warm-white); outline: none; color: var(--text-dark); -moz-appearance: textfield; }
+    .qr-custom input::-webkit-outer-spin-button, .qr-custom input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .qr-custom input:focus { border-color: var(--teal); }
+    .qr-custom button { padding: .5rem 1rem; background: var(--teal); color: #fff; border: none; border-radius: var(--r-sm); font-family: var(--font-b); font-weight: 700; cursor: pointer; transition: var(--ease); font-size: .88rem; }
+    .qr-custom button:hover { background: var(--teal-light); }
+    #qr-canvas { margin: 0 auto .9rem; display: flex; justify-content: center; min-height: 164px; align-items: center; }
+    #qr-canvas img, #qr-canvas canvas { border-radius: 10px; border: 3px solid rgba(42,124,124,.15); }
+    .qr-amount-display { font-family: var(--font-h); font-size: 1.3rem; font-weight: 700; color: var(--teal); margin-bottom: .3rem; }
+    .qr-lbl { font-size: .75rem; color: var(--text-muted); }
+    .qr-loading { font-size: .85rem; color: var(--text-muted); }
+    .amounts-box { background: var(--warm-white); border-radius: var(--r-md); padding: 2rem; box-shadow: var(--sh-sm); border: 1px solid rgba(42,124,124,.1); }
+    .amounts-box h3 { font-size: 1.15rem; margin-bottom: .5rem; }
+    .amounts-box > p { font-size: .9rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+    .amt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-bottom: 1.5rem; }
+    .amt-btn { padding: 1rem; border: 2px solid rgba(42,124,124,.18); border-radius: var(--r-sm); background: var(--card-bg); font-size: .97rem; font-weight: 700; color: var(--text-dark); transition: var(--ease); }
+    .amt-btn:hover, .amt-btn.sel { border-color: var(--teal); background: rgba(42,124,124,.07); color: var(--teal); }
+    .amt-btn.other { border-style: dashed; font-weight: 400; color: var(--text-muted); }
+    .amt-btn.other:hover { border-color: var(--amber); color: var(--amber); background: rgba(212,136,42,.05); }
+    .transp { background: rgba(42,124,124,.07); border-radius: var(--r-sm); padding: 1rem 1.2rem; display: flex; align-items: flex-start; gap: .7rem; font-size: .88rem; line-height: 1.6; margin-bottom: 1.5rem; }
+    .transp svg { flex-shrink: 0; color: var(--teal); margin-top: 2px; }
+    .quote-strip { background: var(--card-bg); border-radius: var(--r-sm); padding: 1.4rem 1.5rem; border-left: 3px solid var(--amber); }
+    .quote-strip p:first-child { font-family: var(--font-h); font-style: italic; color: var(--teal); margin-bottom: .4rem; }
+    .quote-strip p:last-child  { font-size: .84rem; color: var(--text-muted); }
+
+    /* FOOTER */
+    footer.hp-footer { background: var(--text-dark); color: rgba(255,255,255,.8); padding: 3.5rem 0 2rem; }
+    .foot-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6rem; }
+    .foot-logo { font-family: var(--font-h); font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .foot-logo span { color: var(--amber-light); }
+    .foot-thanks { font-size: 1rem; color: rgba(255,255,255,.65); max-width: 440px; line-height: 1.75; }
+    .foot-thanks strong { color: var(--amber-light); }
+    .social-row { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+    .soc-btn { display: inline-flex; align-items: center; gap: .45rem; padding: .55rem 1.2rem; border-radius: 50px; font-size: .85rem; font-weight: 700; transition: var(--ease); }
+    .soc-fb  { background: #1877F2; color: #fff; } .soc-fb:hover  { background: #1565D0; transform: translateY(-2px); }
+    .soc-wa  { background: #25D366; color: #fff; } .soc-wa:hover  { background: #1DB954; transform: translateY(-2px); }
+    .soc-x   { background: #0F0F0F; color: #fff; } .soc-x:hover   { background: #333;    transform: translateY(-2px); }
+    .soc-ig  { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+    .soc-ig:hover  { filter: brightness(1.12); transform: translateY(-2px); }
+    .foot-hr { width: 100%; height: 1px; background: rgba(255,255,255,.1); }
+    .foot-bottom { font-size: .78rem; color: rgba(255,255,255,.35); }
+    .foot-disc { font-size: .72rem; color: rgba(255,255,255,.28); max-width: 520px; line-height: 1.55; margin-top: .4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .photo-frame { max-width: 280px; aspect-ratio: 1; margin: 0 auto; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 3.5rem 0; }
+      .nav-links { display: none; }
+      .ham { display: flex; }
+      .help-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+      .don-grid  { grid-template-columns: 1fr; }
+      .timeline::before { display: none; }
+    }
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; }
+      .hero-btns .btn { justify-content: center; }
+      .social-row { flex-direction: column; align-items: stretch; }
+      .soc-btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body <?php body_class( 'humanitarna-page' ); ?>>
+
+<?php wp_body_open(); ?>
+
+<!-- NAVIGATION -->
+<nav id="nav" role="navigation" aria-label="Glavna navigacija">
+  <div class="container">
+    <div class="nav-row">
+      <a href="#hero" class="nav-logo" aria-label="Na početak stranice">A<span>P</span></a>
+      <ul class="nav-links">
+        <li><a href="#prica">Priča</a></li>
+        <li><a href="#zdravlje">Zdravlje</a></li>
+        <li><a href="#kako-pomoci">Kako pomoći</a></li>
+        <li><a href="#donacije" class="nav-cta">Donacije</a></li>
+      </ul>
+      <button class="ham" id="ham" aria-label="Otvori meni" aria-expanded="false" aria-controls="mob">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div id="mob" role="dialog" aria-label="Mobilni meni" aria-modal="true">
+  <a href="#prica"       class="mob-link" data-mob>Priča</a>
+  <a href="#zdravlje"    class="mob-link" data-mob>Zdravlje</a>
+  <a href="#kako-pomoci" class="mob-link" data-mob>Kako pomoći</a>
+  <a href="#donacije"    class="mob-donate" data-mob>♥ Donacije</a>
+</div>
+
+
+<!-- HERO -->
+<section id="hero" aria-label="Naslovna sekcija">
+  <svg class="hero-motif" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+    <path d="M200 220 C195 180 185 130 160 100 C138 73 105 65 85 80 C62 97 60 130 75 160 C88 187 115 205 148 218 L200 240Z" stroke="#2A7C7C" stroke-width="3" stroke-linecap="round"/>
+    <path d="M200 220 C205 180 215 130 240 100 C262 73 295 65 315 80 C338 97 340 130 325 160 C312 187 285 205 252 218 L200 240Z" stroke="#2A7C7C" stroke-width="3" stroke-linecap="round"/>
+    <line x1="200" y1="60" x2="200" y2="230" stroke="#D4882A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M130 280 Q165 265 200 270 Q235 275 270 280" stroke="#2A7C7C" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M110 310 Q155 295 200 300 Q245 305 290 310" stroke="#D4882A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="200" cy="55" r="10" stroke="#D4882A" stroke-width="2.5"/>
+    <circle cx="200" cy="200" r="185" stroke="#2A7C7C" stroke-width="1" opacity=".3"/>
+  </svg>
+  <div class="container">
+    <div class="hero-body fi">
+      <p class="hero-eyebrow">Borba i nada</p>
+      <h1 class="hero-title">Zajedno <span>možemo</span><br>više</h1>
+      <p class="hero-name">— Ana Pupić —</p>
+      <p class="hero-desc">Priča o hrabrosti, nadi i ljubavi koja ne prestaje.<br>Pomozite nam da nastavimo ovu borbu zajedno.</p>
+      <div class="hero-btns">
+        <a href="#prica" class="btn btn-primary">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Saznaj više
+        </a>
+        <a href="#donacije" class="btn btn-donate">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Doniraj sada
+        </a>
+      </div>
+      <div class="hero-stats">
+        <?php
+        // ▶ ZAMENI ACF poljima ili Custom Fields ako koristiš plugin
+        // Npr: get_field('meseci_lecenja')
+        $meseci    = get_post_meta( get_the_ID(), 'hp_meseci_lecenja', true )    ?: '[N]';
+        $podrzavaci = get_post_meta( get_the_ID(), 'hp_podrzavaci', true )        ?: '[N]';
+        $ciklusi   = get_post_meta( get_the_ID(), 'hp_ciklusi_terapije', true )  ?: '[N]';
+        ?>
+        <div><span class="stat-n"><?php echo esc_html( $meseci ); ?></span><span class="stat-l">Meseci lečenja</span></div>
+        <div><span class="stat-n"><?php echo esc_html( $podrzavaci ); ?></span><span class="stat-l">Podržavača</span></div>
+        <div><span class="stat-n"><?php echo esc_html( $ciklusi ); ?></span><span class="stat-l">Ciklusa terapije</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRIČA -->
+<section id="prica" aria-labelledby="h-prica">
+  <div class="container">
+    <div class="story-grid">
+      <div class="fi-l">
+        <div class="photo-frame">
+          <?php
+          // ▶ Ako je postavljen Featured Image stranice, prikazuje se automatski
+          if ( has_post_thumbnail() ) :
+            the_post_thumbnail( 'large', [
+              'alt'   => 'Ana Pupić',
+              'style' => 'width:100%;height:100%;object-fit:cover;',
+            ] );
+          else : ?>
+            <div class="photo-inner" role="img" aria-label="Fotografija Ane Pupić">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span class="photo-lbl">Postavi Featured Image stranice<br>da bi se fotografija prikazala ovde</span>
+            </div>
+          <?php endif; ?>
+        </div>
+      </div>
+      <div class="fi-r">
+        <span class="s-tag">Moja priča</span>
+        <h2 id="h-prica">Svaki dan je dar koji treba čuvati</h2>
+        <div class="s-bar"></div>
+        <?php
+        // ▶ Tekst priče dolazi iz WordPress editora (sadržaj stranice)
+        // Ili ga tvrdo kodiraj ispod ako ne koristiš WP editor
+        if ( have_posts() ) : while ( have_posts() ) : the_post();
+          $content = get_the_content();
+        endwhile; endif;
+
+        if ( ! empty( trim( strip_tags( $content ) ) ) ) :
+          echo '<div class="story-content">' . apply_filters( 'the_content', $content ) . '</div>';
+        else : // Podrazumevani placeholder tekst ?>
+          <p>Dijagnoza raka pluća stigla je kao grom iz vedra neba. U jednom trenutku, ceo život se promenio — planovi, snovi, svakodnevnica. Ali ono što nije moglo da se promeni jeste volja da se bori, da se voli, da se živi punim srcem svaki dan koji dolazi.</p>
+          <div class="pull-q">
+            <p>Dok god postoji nada i podrška, borba se nastavlja. Svaka donacija, svaka lepa reč — to nije sitnica. To je kiseonik za dušu.</p>
+          </div>
+          <p>Meseci lečenja doneli su izazove kakve nisam mogla ni zamisliti. Hemoterapija, bolnički hodnici, umor koji prodire do kosti — ali i beskonačna toplina porodice i prijatelja koji su postali anđeli čuvari u najtežim trenucima.</p>
+          <p>Vaša pomoć, ma kolika bila, direktno doprinosi tretmanima i lekovima koji nam daju šansu za sutra.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ZDRAVLJE -->
+<section id="zdravlje" aria-labelledby="h-zdravlje">
+  <div class="container">
+    <div class="h-center fi">
+      <span class="s-tag">Ažuriranja</span>
+      <h2 id="h-zdravlje">Zdravstveno stanje</h2>
+      <div class="s-bar center"></div>
+      <p class="s-sub center">Transparentno i sa ljubavlju delimo svako ažuriranje. Hvala vam što ste uz nas.</p>
+    </div>
+    <div class="timeline" style="margin-top:2.5rem" role="list">
+
+      <?php
+      // ▶ Dinamički: Ako koristiš ACF Repeater polje 'zdravstvena_azuriranja'
+      // zameni ispod sa get_field('zdravstvena_azuriranja')
+      // Za sada su prikazani hardkodovani placeholder unosi:
+      $azuriranja = [
+        [ 'datum' => '[Mesec, Godina]', 'status' => 't', 'status_text' => 'U toku lečenja',  'naslov' => 'Početak hemoterapije',            'tekst' => 'Počeli smo sa prvim ciklusom hemoterapije. Reakcija na terapiju se prati i lekari su optimistični.' ],
+        [ 'datum' => '[Mesec, Godina]', 'status' => 's', 'status_text' => 'Stabilno',         'naslov' => 'Kontrolni pregled — ohrabrujući', 'tekst' => 'Skeniranje pokazuje da je stanje stabilno. Nastavljamo sa planom lečenja punom snagom.' ],
+        [ 'datum' => '[Mesec, Godina]', 'status' => 'h', 'status_text' => 'Potrebna pomoć',  'naslov' => 'Skuplja faza lečenja',            'tekst' => 'Nova faza zahteva lekove koji nisu pokriveni osiguranjem. Vaša podrška nam je posebno važna.' ],
+        [ 'datum' => '[Mesec, Godina]', 'status' => 't', 'status_text' => 'U toku lečenja',  'naslov' => 'Nova imunoterapija i nova nada',  'tekst' => 'Prelazimo na savremenu imunoterapiju. Lekari su optimistični i mi verujemo u pozitivan ishod.' ],
+      ];
+      $ikone = [
+        '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+        '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+        '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/>',
+        '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+      ];
+      foreach ( $azuriranja as $i => $a ) :
+        $delay = $i > 0 ? ' d' . $i : '';
+      ?>
+      <div class="tl-item fi<?php echo $delay; ?>" role="listitem">
+        <div class="tl-dot" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><?php echo $ikone[$i]; ?></svg>
+        </div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <span class="tl-date">📅 <?php echo esc_html( $a['datum'] ); ?></span>
+            <span class="badge badge-<?php echo esc_attr( $a['status'] ); ?>"><?php echo esc_html( $a['status_text'] ); ?></span>
+          </div>
+          <h4><?php echo esc_html( $a['naslov'] ); ?></h4>
+          <p><?php echo esc_html( $a['tekst'] ); ?></p>
+        </div>
+      </div>
+      <?php endforeach; ?>
+
+    </div>
+    <?php
+    $azuriranje_datum = get_post_meta( get_the_ID(), 'hp_poslednje_azuriranje', true ) ?: '[Dan. Mesec Godina.]';
+    ?>
+    <p class="health-note fi">🕐 Poslednje ažuriranje: <strong><?php echo esc_html( $azuriranje_datum ); ?></strong></p>
+  </div>
+</section>
+
+
+<!-- KAKO POMOĆI -->
+<section id="kako-pomoci" aria-labelledby="h-pomoc">
+  <div class="container">
+    <div class="h-center fi" style="margin-bottom:2.75rem">
+      <span class="s-tag">Vaša podrška</span>
+      <h2 id="h-pomoc">Kako možete pomoći</h2>
+      <div class="s-bar center"></div>
+      <p class="s-sub center">Svaki oblik podrške znači beskrajno mnogo. Izaberite šta vam je najlakše i budite deo naše borbe.</p>
+    </div>
+    <div class="help-grid">
+      <div class="help-card fi">
+        <span class="help-icon" aria-hidden="true">💰</span>
+        <h3>Finansijska donacija</h3>
+        <p>Svaki dinar je važan i direktno ide za lečenje, lekove i medicinske troškove. Nema premale donacije.</p>
+        <a href="#donacije" class="btn btn-primary btn-sm">Doniraj</a>
+      </div>
+      <div class="help-card fi d2">
+        <span class="help-icon" aria-hidden="true">🤝</span>
+        <h3>Deli priču</h3>
+        <p>Pomozi nam da dođemo do više ljudi. Podeli ovu stranicu i pomozi nam da širimo reč o našoj borbi.</p>
+        <button onclick="sharePage()" class="btn btn-primary btn-sm">Podeli</button>
+      </div>
+      <div class="help-card fi d4">
+        <span class="help-icon" aria-hidden="true">💌</span>
+        <h3>Reč ohrabrenja</h3>
+        <p>Poruka podrške znači mnogo. Pošalji nam toplu reč — svaki podsticaj je izvor snage u teškim momentima.</p>
+        <?php
+        // ▶ ZAMENI email adresom
+        $kontakt_email = get_post_meta( get_the_ID(), 'hp_kontakt_email', true ) ?: '#';
+        ?>
+        <a href="mailto:<?php echo esc_attr( $kontakt_email ); ?>?subject=Podrška%20za%20Anu%20Pupić" class="btn btn-amber btn-sm">Pošalji poruku</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DONACIJE -->
+<section id="donacije" aria-labelledby="h-donacije">
+  <div class="container">
+    <div class="h-center fi" style="margin-bottom:2.75rem">
+      <span class="s-tag">Pomozi nam</span>
+      <h2 id="h-donacije">Pomozi Ani Pupić</h2>
+      <div class="s-bar center"></div>
+      <p class="s-sub center">Sva prikupljena sredstva koriste se <strong>isključivo</strong> za lečenje, nabavku lekova i medicinske troškove. Hvala vam iz sveg srca.</p>
+    </div>
+    <div class="don-grid">
+      <div id="pay-info" class="pay-box fi">
+        <h3>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Podaci za uplatu
+        </h3>
+        <?php
+        // ▶ Custom Fields stranice (ili ACF)
+        $primalac  = get_post_meta( get_the_ID(), 'hp_primalac',   true ) ?: 'Ana Pupić';
+        $racun_rsd = get_post_meta( get_the_ID(), 'hp_racun_rsd',  true ) ?: '325-9300500192231-04';
+        $racun_eur = get_post_meta( get_the_ID(), 'hp_racun_eur',  true ) ?: '325-9341500294226-43';
+        $tel1      = get_post_meta( get_the_ID(), 'hp_tel1',       true ) ?: '+381641137704';
+        $tel2      = get_post_meta( get_the_ID(), 'hp_tel2',       true ) ?: '+381641595986';
+        $paypal    = get_post_meta( get_the_ID(), 'hp_paypal',     true ) ?: '[paypal@example.com]';
+        $racun_rsd_ips = preg_replace('/[^0-9]/', '', $racun_rsd);
+        ?>
+        <div class="pay-row">
+          <div class="pay-label">Primalac</div>
+          <div class="pay-field"><span class="pay-val"><?php echo esc_html( $primalac ); ?></span></div>
+        </div>
+
+        <div class="pay-section-lbl">🇷🇸 Dinarski račun (RSD)</div>
+        <div class="pay-row">
+          <div class="pay-label">Broj računa</div>
+          <div class="pay-field">
+            <span class="pay-val" id="acc-rsd"><?php echo esc_html( $racun_rsd ); ?></span>
+            <button class="copy-btn" onclick="doCopy('acc-rsd',this)" aria-label="Kopiraj dinarski broj računa">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Kopiraj
+            </button>
+          </div>
+        </div>
+        <div class="pay-row">
+          <div class="pay-label">Svrha uplate</div>
+          <div class="pay-field"><span class="pay-val">Donacija za lečenje <?php echo esc_html( $primalac ); ?></span></div>
+        </div>
+
+        <div class="pay-section-lbl eur">🇪🇺 Devizni račun (EUR)</div>
+        <div class="pay-row">
+          <div class="pay-label">Broj računa</div>
+          <div class="pay-field">
+            <span class="pay-val" id="acc-eur"><?php echo esc_html( $racun_eur ); ?></span>
+            <button class="copy-btn" onclick="doCopy('acc-eur',this)" aria-label="Kopiraj devizni broj računa">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Kopiraj
+            </button>
+          </div>
+        </div>
+        <div class="pay-row">
+          <div class="pay-label">Svrha uplate</div>
+          <div class="pay-field"><span class="pay-val">Donation for <?php echo esc_html( $primalac ); ?> treatment</span></div>
+        </div>
+
+        <div class="pay-section-lbl tel">📞 Kontakt za donacije</div>
+        <a href="tel:<?php echo esc_attr( preg_replace('/\s+/','',$tel1) ); ?>" class="tel-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="tel-link"><?php echo esc_html( $tel1 ); ?></span>
+          <button class="copy-btn" onclick="event.preventDefault();doCopy('tel1-val',this)" aria-label="Kopiraj broj telefona">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiraj
+          </button>
+          <span id="tel1-val" style="display:none"><?php echo esc_html( preg_replace('/\s+/','',$tel1) ); ?></span>
+        </a>
+        <a href="tel:<?php echo esc_attr( preg_replace('/\s+/','',$tel2) ); ?>" class="tel-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="tel-link"><?php echo esc_html( $tel2 ); ?></span>
+          <button class="copy-btn" onclick="event.preventDefault();doCopy('tel2-val',this)" aria-label="Kopiraj broj telefona">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiraj
+          </button>
+          <span id="tel2-val" style="display:none"><?php echo esc_html( preg_replace('/\s+/','',$tel2) ); ?></span>
+        </a>
+
+        <div class="pay-label" style="margin-top:1.1rem;margin-bottom:.35rem">PayPal</div>
+        <div class="paypal-field">
+          <span class="pp-logo">Pay<span>Pal</span></span>
+          <span class="pay-val" id="pp"><?php echo esc_html( $paypal ); ?></span>
+          <button class="copy-btn" onclick="doCopy('pp',this)" aria-label="Kopiraj PayPal email">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiraj
+          </button>
+        </div>
+
+        <div class="qr-zone" role="group" aria-label="IPS QR kod za dinarsku uplatu">
+          <p class="qr-zone-title">📲 Skeniraj i uplati — IPS QR</p>
+          <div class="qr-amounts" role="group" aria-label="Izaberi iznos donacije">
+            <button class="qr-amt active" onclick="setQRAmt(500,this)">500</button>
+            <button class="qr-amt" onclick="setQRAmt(1000,this)">1.000</button>
+            <button class="qr-amt" onclick="setQRAmt(2000,this)">2.000</button>
+            <button class="qr-amt" onclick="setQRAmt(5000,this)">5.000</button>
+          </div>
+          <div class="qr-custom">
+            <input type="number" id="qr-input" placeholder="Drugi iznos (RSD)" min="100" max="999999" aria-label="Unesi iznos donacije">
+            <button onclick="setQRCustom()">OK</button>
+          </div>
+          <div id="qr-canvas" aria-live="polite"><span class="qr-loading">Učitavanje...</span></div>
+          <p class="qr-amount-display" id="qr-amt-label">500 RSD</p>
+          <p class="qr-lbl">IPS QR • Dinarski račun • Kompatibilno sa svim srpskim bankarskim aplikacijama</p>
+        </div>
+        <script>var HP_IPS_ACCOUNT='<?php echo esc_js($racun_rsd_ips); ?>';var HP_NAME='<?php echo esc_js($primalac); ?>';</script>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+        <div class="amounts-box fi d1">
+          <h3>Predloženi iznosi</h3>
+          <p>Odaberite iznos ili uplatite koliko možete — sve je dragoceno.</p>
+          <div class="amt-grid" role="group" aria-label="Predloženi iznosi donacije">
+            <button class="amt-btn" onclick="selAmt(this)">500 RSD</button>
+            <button class="amt-btn" onclick="selAmt(this)">1.000 RSD</button>
+            <button class="amt-btn" onclick="selAmt(this)">2.000 RSD</button>
+            <button class="amt-btn other" onclick="selAmt(this)">✏️ Drugi iznos</button>
+          </div>
+          <a href="#pay-info" class="btn btn-donate btn-full">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Doniraj sada
+          </a>
+        </div>
+        <div class="transp fi d2" role="note">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <p><strong>Sva sredstva se koriste isključivo za lečenje.</strong> Redovno ćemo objavljivati transparentne izveštaje o upotrebi prikupljenih sredstava.</p>
+        </div>
+        <div class="quote-strip fi d3">
+          <p>"Nema premale donacije. Nema male ljubavi."</p>
+          <p>Svaki prilog, svaka podela, svaka molba — to je deo naše zajedničke pobede.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="hp-footer" role="contentinfo">
+  <div class="container">
+    <div class="foot-inner">
+      <div class="foot-logo">Ana <span>Pupić</span></div>
+      <p class="foot-thanks"><strong>Hvala vam iz dna srca</strong> na svakom obliku podrške.<br>Vaša dobrota i ljubav su svetionik u najtežim trenucima.</p>
+      <nav class="social-row" aria-label="Podeli na društvenim mrežama">
+        <?php $share_url = urlencode( get_permalink() ); ?>
+        <a href="https://www.facebook.com/ana.pupic.3" target="_blank" rel="noopener noreferrer" class="soc-btn soc-fb" aria-label="Posetite Facebook stranicu Ane Pupić">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook
+        </a>
+        <a href="https://wa.me/381641595986" target="_blank" rel="noopener noreferrer" class="soc-btn soc-wa" aria-label="Kontaktirajte nas na WhatsApp-u">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>WhatsApp
+        </a>
+        <a href="https://www.instagram.com/ana._.pupicii?igsh=bjZ4azB0a2Ywc2Ey" target="_blank" rel="noopener noreferrer" class="soc-btn soc-ig" aria-label="Posetite Instagram profil Ane Pupić">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>Instagram
+        </a>
+      </nav>
+      <div class="foot-hr"></div>
+      <div class="foot-bottom">
+        <p>© <?php echo date('Y'); ?> Ana Pupić. Stranica kreirana u humanitarne svrhe.</p>
+        <p class="foot-disc">Sva prikupljena sredstva idu direktno na lečenje i nabavku lekova. Donacije su dobrovoljne i ne podrazumevaju nikakvu naknadu niti pravo na povraćaj.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
+
+  ham.addEventListener('click', () => {
+    const open = mob.classList.toggle('on');
+    ham.classList.toggle('on', open);
+    ham.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  document.querySelectorAll('[data-mob]').forEach(l => l.addEventListener('click', () => {
+    mob.classList.remove('on'); ham.classList.remove('on');
+    ham.setAttribute('aria-expanded','false'); document.body.style.overflow = '';
+  }));
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -55px 0px', threshold: 0.1 });
+  document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el => io.observe(el));
+  document.querySelector('#hero .fi')?.classList.add('on');
+
+  function doCopy(id, btn) {
+    const text = document.getElementById(id).textContent.trim();
+    const orig = btn.innerHTML;
+    const ok = () => {
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Kopirano!';
+      btn.classList.add('ok');
+      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('ok'); }, 2200);
+    };
+    navigator.clipboard?.writeText(text).then(ok).catch(() => {
+      const t = document.createElement('textarea');
+      t.value = text; Object.assign(t.style,{position:'fixed',opacity:'0'});
+      document.body.appendChild(t); t.focus(); t.select();
+      try { document.execCommand('copy'); ok(); } catch(_){}
+      document.body.removeChild(t);
+    });
+  }
+
+  function selAmt(btn) {
+    btn.closest('.amt-grid').querySelectorAll('.amt-btn').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+  }
+
+  function sharePage() {
+    if (navigator.share) {
+      navigator.share({ title: 'Zajedno možemo više — Ana Pupić', text: 'Pomozite Anu Pupić u borbi protiv raka pluća.', url: location.href }).catch(()=>{});
+    } else {
+      navigator.clipboard?.writeText(location.href).then(() => alert('Link kopiran! Podeli ga sa prijateljima.')).catch(() => window.prompt('Kopiraj link:', location.href));
+    }
+  }
+
+  /* IPS QR kod */
+  function buildIPS(amount) {
+    const acc  = (typeof HP_IPS_ACCOUNT !== 'undefined') ? HP_IPS_ACCOUNT : '325930050019223104';
+    const name = (typeof HP_NAME !== 'undefined') ? HP_NAME : 'Ana Pupić';
+    return ['K:PR','V:01','C:1','R:'+acc,'N:'+name,'I:RSD'+amount+'.00','SF:189','S:Donacija za lečenje '+name].join('|');
+  }
+  function renderQR(amount) {
+    const canvas = document.getElementById('qr-canvas');
+    if (!canvas) return;
+    canvas.innerHTML = '';
+    if (typeof QRCode === 'undefined') { canvas.innerHTML = '<span class="qr-loading">QR nije dostupan offline</span>'; return; }
+    new QRCode(canvas, { text: buildIPS(amount), width: 180, height: 180, colorDark: '#2A7C7C', colorLight: '#FAF7F2', correctLevel: QRCode.CorrectLevel.M });
+    document.getElementById('qr-amt-label').textContent = amount.toLocaleString('sr-RS') + ' RSD';
+  }
+  function setQRAmt(amount, btn) {
+    document.querySelectorAll('.qr-amt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('qr-input').value = '';
+    renderQR(amount);
+  }
+  function setQRCustom() {
+    const val = parseInt(document.getElementById('qr-input').value, 10);
+    if (!val || val < 100) { document.getElementById('qr-input').focus(); return; }
+    document.querySelectorAll('.qr-amt').forEach(b => b.classList.remove('active'));
+    renderQR(val);
+  }
+  document.getElementById('qr-input')?.addEventListener('keydown', e => { if (e.key === 'Enter') setQRCustom(); });
+  window.addEventListener('load', () => { renderQR(500); });
+</script>
+
+<?php wp_footer(); ?>
+</body>
+</html>
