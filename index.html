@@ -366,6 +366,26 @@
     .copy-btn:hover { background: rgba(42,124,124,.1); }
     .copy-btn.ok { color: #2E7D32; }
 
+    .pay-section-lbl {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--warm-white);
+      background: var(--teal); border-radius: var(--r-sm);
+      padding: .35rem .85rem; margin: 1.25rem 0 .75rem;
+    }
+    .pay-section-lbl.eur { background: #1a5276; }
+    .pay-section-lbl.tel { background: var(--amber); }
+
+    .tel-row {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--cream); border-radius: var(--r-sm);
+      padding: .7rem 1rem; border: 1px solid rgba(42,124,124,.15);
+      margin-bottom: .6rem;
+    }
+    .tel-row svg { color: var(--teal); flex-shrink: 0; }
+    .tel-link { font-family: 'Courier New', monospace; font-size: .97rem; font-weight: 700; color: var(--text-dark); letter-spacing: .04em; flex: 1; }
+    .tel-link:hover { color: var(--teal); text-decoration: underline; }
+
     .paypal-field {
       display: flex; align-items: center; gap: .6rem;
       background: #EEF4FF; border-radius: var(--r-sm);
@@ -729,24 +749,14 @@
           </div>
         </div>
 
+        <!-- ── Dinarski račun ── -->
+        <div class="pay-section-lbl">🇷🇸 Dinarski račun (RSD)</div>
+
         <div class="pay-row">
           <div class="pay-label">Broj računa</div>
           <div class="pay-field">
-            <!-- ▶ ZAMENI stvarnim brojem računa -->
-            <span class="pay-val" id="acc">000-0000000000000-00</span>
-            <button class="copy-btn" onclick="doCopy('acc',this)" aria-label="Kopiraj broj računa">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Kopiraj
-            </button>
-          </div>
-        </div>
-
-        <div class="pay-row">
-          <div class="pay-label">Poziv na broj</div>
-          <div class="pay-field">
-            <!-- ▶ ZAMENI stvarnim pozivom na broj -->
-            <span class="pay-val" id="ref">97 000-0000</span>
-            <button class="copy-btn" onclick="doCopy('ref',this)" aria-label="Kopiraj poziv na broj">
+            <span class="pay-val" id="acc-rsd">325-9300500192231-04</span>
+            <button class="copy-btn" onclick="doCopy('acc-rsd',this)" aria-label="Kopiraj dinarski broj računa">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               Kopiraj
             </button>
@@ -759,6 +769,50 @@
             <span class="pay-val">Donacija za lečenje Ane Pupić</span>
           </div>
         </div>
+
+        <!-- ── Devizni račun ── -->
+        <div class="pay-section-lbl eur">🇪🇺 Devizni račun (EUR)</div>
+
+        <div class="pay-row">
+          <div class="pay-label">Broj računa</div>
+          <div class="pay-field">
+            <span class="pay-val" id="acc-eur">325-9341500294226-43</span>
+            <button class="copy-btn" onclick="doCopy('acc-eur',this)" aria-label="Kopiraj devizni broj računa">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Kopiraj
+            </button>
+          </div>
+        </div>
+
+        <div class="pay-row">
+          <div class="pay-label">Svrha uplate</div>
+          <div class="pay-field">
+            <span class="pay-val">Donation for Ana Pupić treatment</span>
+          </div>
+        </div>
+
+        <!-- ── Telefon ── -->
+        <div class="pay-section-lbl tel">📞 Kontakt za donacije</div>
+
+        <a href="tel:+381641137704" class="tel-row" aria-label="Pozovi +381 64 113 7704">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="tel-link">+381 64 113 7704</span>
+          <button class="copy-btn" onclick="event.preventDefault();doCopy('tel1',this)" aria-label="Kopiraj broj telefona">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiraj
+          </button>
+          <span id="tel1" style="display:none">+381641137704</span>
+        </a>
+
+        <a href="tel:+381641595986" class="tel-row" aria-label="Pozovi +381 64 159 5986">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="tel-link">+381 64 159 5986</span>
+          <button class="copy-btn" onclick="event.preventDefault();doCopy('tel2',this)" aria-label="Kopiraj broj telefona">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiraj
+          </button>
+          <span id="tel2" style="display:none">+381641595986</span>
+        </a>
 
         <div class="pay-label" style="margin-top:1.1rem;margin-bottom:.35rem">PayPal</div>
         <div class="paypal-field">
