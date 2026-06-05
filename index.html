@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
   <style>
     /* ── CSS Variables ─────────────────────────────────────────── */
@@ -396,16 +397,51 @@
     .pp-logo span { color: #009CDE; }
 
     .qr-zone {
-      background: var(--cream); border: 2px dashed rgba(42,124,124,.25);
-      border-radius: var(--r-sm); padding: 1.5rem; text-align: center;
+      background: var(--cream); border: 2px solid rgba(42,124,124,.2);
+      border-radius: var(--r-md); padding: 1.5rem; text-align: center;
     }
-    .qr-sq {
-      width: 110px; height: 110px; background: #DDD8CE;
-      border-radius: var(--r-sm); margin: 0 auto .75rem;
-      display: flex; align-items: center; justify-content: center;
+    .qr-zone-title {
+      font-family: var(--font-h); font-size: 1rem; font-weight: 600;
+      color: var(--text-dark); margin-bottom: 1rem;
     }
-    .qr-sq svg { color: #999; }
-    .qr-lbl { font-size: .78rem; color: var(--text-muted); font-style: italic; }
+    .qr-amounts {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: .4rem;
+      margin-bottom: .75rem;
+    }
+    .qr-amt {
+      padding: .45rem .25rem; border: 2px solid rgba(42,124,124,.2);
+      border-radius: var(--r-sm); background: var(--warm-white);
+      font-family: var(--font-b); font-size: .8rem; font-weight: 700;
+      color: var(--text-dark); cursor: pointer; transition: var(--ease);
+    }
+    .qr-amt:hover { border-color: var(--teal); color: var(--teal); background: rgba(42,124,124,.06); }
+    .qr-amt.active { border-color: var(--teal); background: var(--teal); color: #fff; }
+    .qr-custom {
+      display: flex; gap: .4rem; margin-bottom: 1.1rem;
+    }
+    .qr-custom input {
+      flex: 1; padding: .5rem .75rem; border: 2px solid rgba(42,124,124,.2);
+      border-radius: var(--r-sm); font-family: var(--font-b); font-size: .88rem;
+      background: var(--warm-white); outline: none; color: var(--text-dark);
+      -moz-appearance: textfield;
+    }
+    .qr-custom input::-webkit-outer-spin-button,
+    .qr-custom input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .qr-custom input:focus { border-color: var(--teal); }
+    .qr-custom button {
+      padding: .5rem 1rem; background: var(--teal); color: #fff;
+      border: none; border-radius: var(--r-sm); font-family: var(--font-b);
+      font-weight: 700; cursor: pointer; transition: var(--ease); font-size: .88rem;
+    }
+    .qr-custom button:hover { background: var(--teal-light); }
+    #qr-canvas { margin: 0 auto .9rem; display: flex; justify-content: center; min-height: 164px; align-items: center; }
+    #qr-canvas img, #qr-canvas canvas { border-radius: 10px; border: 3px solid rgba(42,124,124,.15); }
+    .qr-amount-display {
+      font-family: var(--font-h); font-size: 1.3rem; font-weight: 700;
+      color: var(--teal); margin-bottom: .3rem;
+    }
+    .qr-lbl { font-size: .75rem; color: var(--text-muted); }
+    .qr-loading { font-size: .85rem; color: var(--text-muted); }
 
     .amounts-box {
       background: var(--warm-white); border-radius: var(--r-md);
@@ -825,22 +861,27 @@
           </button>
         </div>
 
-        <div class="qr-zone" role="img" aria-label="Mesto za QR kod za uplatu">
-          <div class="qr-sq" aria-hidden="true">
-            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="3"  y="3"  width="16" height="16" rx="2"/>
-              <rect x="25" y="3"  width="16" height="16" rx="2"/>
-              <rect x="3"  y="25" width="16" height="16" rx="2"/>
-              <rect x="6"  y="6"  width="10" height="10" rx="1" fill="currentColor" opacity=".4"/>
-              <rect x="28" y="6"  width="10" height="10" rx="1" fill="currentColor" opacity=".4"/>
-              <rect x="6"  y="28" width="10" height="10" rx="1" fill="currentColor" opacity=".4"/>
-              <rect x="25" y="25" width="5"  height="5" rx="1" fill="currentColor" opacity=".4"/>
-              <rect x="33" y="25" width="7"  height="5" rx="1" fill="currentColor" opacity=".4"/>
-              <rect x="25" y="33" width="7"  height="7" rx="1" fill="currentColor" opacity=".4"/>
-            </svg>
+        <div class="qr-zone" role="group" aria-label="IPS QR kod za dinarsku uplatu">
+          <p class="qr-zone-title">📲 Skeniraj i uplati — IPS QR</p>
+
+          <div class="qr-amounts" role="group" aria-label="Izaberi iznos donacije">
+            <button class="qr-amt active" onclick="setQRAmt(500,this)"  aria-label="500 dinara">500</button>
+            <button class="qr-amt"        onclick="setQRAmt(1000,this)" aria-label="1000 dinara">1.000</button>
+            <button class="qr-amt"        onclick="setQRAmt(2000,this)" aria-label="2000 dinara">2.000</button>
+            <button class="qr-amt"        onclick="setQRAmt(5000,this)" aria-label="5000 dinara">5.000</button>
           </div>
-          <!-- ▶ ZAMENI pravim QR kodom za uplatu -->
-          <p class="qr-lbl">Zamijenite ovaj okvir QR kodom za uplatu</p>
+
+          <div class="qr-custom">
+            <input type="number" id="qr-input" placeholder="Drugi iznos (RSD)" min="100" max="999999" aria-label="Unesi iznos donacije">
+            <button onclick="setQRCustom()" aria-label="Generiši QR za uneseni iznos">OK</button>
+          </div>
+
+          <div id="qr-canvas" aria-live="polite">
+            <span class="qr-loading">Učitavanje...</span>
+          </div>
+
+          <p class="qr-amount-display" id="qr-amt-label">500 RSD</p>
+          <p class="qr-lbl">IPS QR • Dinarski račun • Kompatibilno sa svim srpskim bankarskim aplikacijama</p>
         </div>
       </div>
 
@@ -958,6 +999,7 @@
 
   document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el => io.observe(el));
   document.querySelector('#hero .fi')?.classList.add('on');
+  renderQR(500);
 
   /* Copy to clipboard */
   function doCopy(id, btn) {
@@ -988,6 +1030,64 @@
     btn.closest('.amt-grid').querySelectorAll('.amt-btn').forEach(b => b.classList.remove('sel'));
     btn.classList.add('sel');
   }
+
+  /* ── IPS QR kod generator ──────────────────────────────────── */
+  let qrObj = null;
+
+  function buildIPS(amount) {
+    // NBS IPS QR standard: K:PR|V:01|C:1|R:[račun bez crtice]|N:[naziv]|I:[valuta+iznos]|SF:[šifra]|S:[svrha]
+    return [
+      'K:PR',
+      'V:01',
+      'C:1',
+      'R:325930050019223104',
+      'N:Ana Pupić',
+      `I:RSD${amount}.00`,
+      'SF:189',
+      'S:Donacija za lečenje Ane Pupić'
+    ].join('|');
+  }
+
+  function renderQR(amount) {
+    const canvas = document.getElementById('qr-canvas');
+    canvas.innerHTML = '';
+    if (typeof QRCode === 'undefined') {
+      canvas.innerHTML = '<span class="qr-loading">QR nije dostupan offline</span>';
+      return;
+    }
+    qrObj = new QRCode(canvas, {
+      text: buildIPS(amount),
+      width: 180,
+      height: 180,
+      colorDark: '#2A7C7C',
+      colorLight: '#FAF7F2',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    document.getElementById('qr-amt-label').textContent =
+      amount.toLocaleString('sr-RS') + ' RSD';
+  }
+
+  function setQRAmt(amount, btn) {
+    document.querySelectorAll('.qr-amt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('qr-input').value = '';
+    renderQR(amount);
+  }
+
+  function setQRCustom() {
+    const val = parseInt(document.getElementById('qr-input').value, 10);
+    if (!val || val < 100) {
+      document.getElementById('qr-input').focus();
+      return;
+    }
+    document.querySelectorAll('.qr-amt').forEach(b => b.classList.remove('active'));
+    renderQR(val);
+  }
+
+  /* Enter key u custom polju */
+  document.getElementById('qr-input')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') setQRCustom();
+  });
 
   /* Share */
   function sharePage() {
