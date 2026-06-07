@@ -606,11 +606,11 @@
           <span class="stat-l">Meseci lečenja</span>
         </div>
         <div>
-          <span class="stat-n">[N]</span>
+          <span class="stat-n">1200+</span>
           <span class="stat-l">Podržavača</span>
         </div>
         <div>
-          <span class="stat-n">[N]</span>
+          <span class="stat-n" id="stat-ciklusi"></span>
           <span class="stat-l">Ciklusa terapije</span>
         </div>
       </div>
@@ -1008,6 +1008,9 @@
     const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
     document.getElementById('stat-meseci').textContent = months;
   })();
+
+  /* Ciklusi terapije — ažuriraj kad se doda novi ciklus */
+  document.getElementById('stat-ciklusi').textContent = 8;
   renderQR(500);
 
   /* Copy to clipboard */
