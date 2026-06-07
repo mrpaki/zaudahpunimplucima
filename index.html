@@ -140,16 +140,16 @@
       display: flex; align-items: center; justify-content: space-between; height: 68px;
     }
     .nav-logo {
-      display: flex; align-items: center;
+      font-family: var(--font-h); font-size: 1.45rem; font-weight: 700;
+      color: var(--teal); letter-spacing: -.02em;
     }
-    .nav-logo img {
-      height: 46px; width: auto;
-      filter: hue-rotate(50deg) saturate(0.85) drop-shadow(0 0 6px rgba(212,136,42,0.55));
+    .nav-logo span { color: var(--amber); }
+
+    .hero-lung {
+      margin-top: 2.5rem;
+      max-width: 220px;
+      filter: hue-rotate(50deg) saturate(0.85) drop-shadow(0 4px 16px rgba(42,124,124,0.35)) drop-shadow(0 0 8px rgba(212,136,42,0.3));
       mix-blend-mode: multiply;
-      transition: filter .3s;
-    }
-    .nav-logo img:hover {
-      filter: hue-rotate(50deg) saturate(1.1) drop-shadow(0 0 10px rgba(212,136,42,0.75));
     }
 
     .nav-links { display: flex; gap: 1.75rem; align-items: center; }
@@ -544,7 +544,7 @@
   <div class="container">
     <div class="nav-row">
       <a href="#hero" class="nav-logo" aria-label="Na početak stranice">
-        <img src="logo-pluca.jpg" alt="Za udah punim plućima">
+        A<span>P</span>
       </a>
       <ul class="nav-links">
         <li><a href="#prica">Priča</a></li>
@@ -621,6 +621,7 @@
           <span class="stat-l">Ciklusa terapije</span>
         </div>
       </div>
+      <img src="logo-pluca.jpg" alt="Za udah punim plućima" class="hero-lung">
     </div>
   </div>
 </section>
