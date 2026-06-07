@@ -140,10 +140,17 @@
       display: flex; align-items: center; justify-content: space-between; height: 68px;
     }
     .nav-logo {
-      font-family: var(--font-h); font-size: 1.45rem; font-weight: 700;
-      color: var(--teal); letter-spacing: -.02em;
+      display: flex; align-items: center;
     }
-    .nav-logo span { color: var(--amber); }
+    .nav-logo img {
+      height: 46px; width: auto;
+      filter: hue-rotate(50deg) saturate(0.85) drop-shadow(0 0 6px rgba(212,136,42,0.55));
+      mix-blend-mode: multiply;
+      transition: filter .3s;
+    }
+    .nav-logo img:hover {
+      filter: hue-rotate(50deg) saturate(1.1) drop-shadow(0 0 10px rgba(212,136,42,0.75));
+    }
 
     .nav-links { display: flex; gap: 1.75rem; align-items: center; }
     .nav-links a {
@@ -537,7 +544,7 @@
   <div class="container">
     <div class="nav-row">
       <a href="#hero" class="nav-logo" aria-label="Na početak stranice">
-        A<span>P</span>
+        <img src="logo-pluca.jpg" alt="Za udah punim plućima">
       </a>
       <ul class="nav-links">
         <li><a href="#prica">Priča</a></li>
