@@ -602,7 +602,7 @@
       </div>
       <div class="hero-stats">
         <div>
-          <span class="stat-n">[N]</span>
+          <span class="stat-n" id="stat-meseci"></span>
           <span class="stat-l">Meseci lečenja</span>
         </div>
         <div>
@@ -1000,6 +1000,14 @@
   document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el => io.observe(el));
   document.querySelector('#hero .fi')?.classList.add('on');
   document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  /* Meseci lečenja — dinamički od maja 2021. */
+  (function() {
+    const start = new Date(2021, 4, 1); // maj 2021
+    const now = new Date();
+    const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+    document.getElementById('stat-meseci').textContent = months;
+  })();
   renderQR(500);
 
   /* Copy to clipboard */
