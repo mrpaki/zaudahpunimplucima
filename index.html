@@ -668,7 +668,7 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 2021</span>
+            <span class="tl-date">📅 jun 2021</span>
             <span class="badge badge-s">Završeno lečenje</span>
           </div>
           <h4>Karcinom grlića materice — dijagnoza i lečenje</h4>
@@ -682,7 +682,7 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 2024</span>
+            <span class="tl-date">📅 oktobar 2024</span>
             <span class="badge badge-s">Stabilno</span>
           </div>
           <h4>Karcinom pluća — dijagnoza, hirurgija i hemoterapija</h4>
@@ -699,7 +699,7 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 2026</span>
+            <span class="tl-date">📅 februar 2026</span>
             <span class="badge badge-t">U toku lečenja</span>
           </div>
           <h4>Recidiv karcinoma pluća — nova dijagnoza i hemoterapija</h4>
@@ -726,7 +726,7 @@
       </div>
     </div>
 
-    <p class="health-note fi">🕐 Poslednje ažuriranje: <strong>[Dan. Mesec Godina.]</strong></p>
+    <p class="health-note fi">🕐 Poslednje ažuriranje: <strong id="last-update"></strong></p>
   </div>
 </section>
 
@@ -1007,6 +1007,13 @@
   document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el => io.observe(el));
   document.querySelector('#hero .fi')?.classList.add('on');
   document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  /* Poslednje ažuriranje — automatski iz datuma izmjene fajla */
+  (function() {
+    const d = new Date(document.lastModified);
+    const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('last-update').textContent = d.toLocaleDateString('sr-RS', opts);
+  })();
 
   /* Meseci lečenja — dinamički od maja 2021. */
   (function() {
