@@ -488,7 +488,9 @@
     ══════════════════════════════════════════════════════════════ */
     footer { background: var(--text-dark); color: rgba(255,255,255,.8); padding: 3.5rem 0 2rem; }
 
-    .foot-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6rem; }
+    .foot-layout { display: flex; align-items: center; gap: 2.5rem; }
+    .foot-ribbon { width: 90px; flex-shrink: 0; opacity: .9; }
+    .foot-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6rem; flex: 1; }
     .foot-logo { font-family: var(--font-h); font-size: 1.5rem; font-weight: 700; color: #fff; }
     .foot-logo span { color: var(--amber-light); }
     .foot-thanks { font-size: 1rem; color: rgba(255,255,255,.65); max-width: 440px; line-height: 1.75; }
@@ -535,6 +537,8 @@
       .hero-btns .btn { justify-content: center; }
       .social-row { flex-direction: column; align-items: stretch; }
       .soc-btn { justify-content: center; }
+      .foot-layout { flex-direction: column; }
+      .foot-ribbon { width: 70px; }
     }
   </style>
 </head>
@@ -928,6 +932,8 @@
 <!-- FOOTER -->
 <footer role="contentinfo">
   <div class="container">
+    <div class="foot-layout">
+      <img src="ribbon.png" alt="Bela vrpca — svest o karcinomu pluća" class="foot-ribbon">
     <div class="foot-inner">
       <div class="foot-logo">Ana <span>Pupić</span></div>
 
@@ -938,7 +944,7 @@
 
       <nav class="social-row" aria-label="Podeli na društvenim mrežama">
         <!-- ▶ ZAMENI [URL-STRANICE] pravim URL-om nakon objave -->
-        <a href="https://www.facebook.com/ana.pupic.3" target="_blank" rel="noopener noreferrer" class="soc-btn soc-fb" aria-label="Posetite Facebook stranicu Ane Pupić">
+        <a href="https://www.facebook.com/share/1BcuUqqQUv/" target="_blank" rel="noopener noreferrer" class="soc-btn soc-fb" aria-label="Posetite Facebook stranicu Ane Pupić">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           Facebook
         </a>
@@ -959,6 +965,7 @@
         <p>© <span id="footer-year"></span> Ana Pupić. Stranica kreirana u humanitarne svrhe.</p>
         <p class="foot-disc">Sva prikupljena sredstva idu direktno na lečenje i nabavku lekova. Donacije su dobrovoljne i ne podrazumevaju nikakvu naknadu niti pravo na povraćaj. Zahvaljujemo se svim donatorima na nesebičnoj podršci.</p>
       </div>
+    </div>
     </div>
   </div>
 </footer>
