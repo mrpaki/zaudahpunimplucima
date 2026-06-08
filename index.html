@@ -372,6 +372,10 @@
     .pay-inner-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5rem; }
     .pay-col-right { display: flex; flex-direction: column; gap: 1rem; }
     @media (max-width: 860px) { .pay-inner-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .don-bottom { grid-template-columns: 1fr; }
+      .poster-col { margin-top: 0 !important; }
+    }
 
     .pay-row { margin-bottom: 1.1rem; }
     .pay-label { font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .35rem; }
@@ -921,7 +925,7 @@
         </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;align-items:start">
+    <div class="don-bottom" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;align-items:start">
     <div style="display:flex;flex-direction:column;gap:1rem">
     <div class="collected-box fi">
       <h3>💚 Prikupljena sredstva</h3>
@@ -952,7 +956,7 @@
       <p>Svaki prilog, svaka podela, svaka molba — to je deo naše zajedničke pobede.</p>
     </div>
     </div>
-    <div style="margin-top:-160px;align-self:end">
+    <div class="poster-col" style="margin-top:-160px;align-self:end">
       <img src="poster.png" alt="Pomozimo Ani Pupić — Za udah punim plućima" style="width:100%;border-radius:var(--r-lg);box-shadow:var(--sh-md);">
     </div>
     </div>
