@@ -469,15 +469,16 @@
 
     .collected-box {
       background: rgba(42,124,124,.07); border-radius: var(--r-md);
-      padding: 1.4rem 1.6rem; margin-top: 1.25rem;
+      padding: 1.6rem 2rem;
       border: 1px solid rgba(42,124,124,.15);
     }
-    .collected-box h3 { font-family: var(--font-h); font-size: 1rem; color: var(--teal); margin-bottom: 1rem; display: flex; align-items: center; gap: .4rem; }
-    .collected-row { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid rgba(42,124,124,.1); }
-    .collected-row:last-of-type { border-bottom: none; }
-    .collected-lbl { font-size: .84rem; color: var(--text-muted); }
-    .collected-val { font-family: 'Courier New', monospace; font-weight: 700; color: var(--teal); font-size: .97rem; }
-    .collected-note { font-size: .75rem; color: var(--text-muted); margin-top: .85rem; font-style: italic; text-align: right; }
+    .collected-box h3 { font-family: var(--font-h); font-size: 1.05rem; color: var(--teal); margin-bottom: 1.1rem; display: flex; align-items: center; gap: .4rem; }
+    .collected-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .collected-row { background: var(--warm-white); border-radius: var(--r-sm); padding: 1rem 1.2rem; border: 1px solid rgba(42,124,124,.12); display: flex; flex-direction: column; gap: .35rem; }
+    .collected-lbl { font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); }
+    .collected-val { font-family: 'Courier New', monospace; font-weight: 700; color: var(--teal); font-size: 1.15rem; }
+    .collected-note { font-size: .75rem; color: var(--text-muted); margin-top: .9rem; font-style: italic; text-align: right; }
+    @media (max-width: 600px) { .collected-grid { grid-template-columns: 1fr; } }
 
     .transp {
       background: rgba(42,124,124,.07); border-radius: var(--r-sm);
@@ -884,22 +885,6 @@
               </button>
               <span id="tel2" style="display:none">+381641595986</span>
             </a>
-            <div class="collected-box">
-              <h3>💚 Prikupljena sredstva</h3>
-              <div class="collected-row">
-                <span class="collected-lbl">🇷🇸 Dinarski (RSD)</span>
-                <span class="collected-val">0,00 RSD</span>
-              </div>
-              <div class="collected-row">
-                <span class="collected-lbl">🇪🇺 Devizni (EUR)</span>
-                <span class="collected-val">0,00 €</span>
-              </div>
-              <div class="collected-row">
-                <span class="collected-lbl">PayPal</span>
-                <span class="collected-val">0,00 €</span>
-              </div>
-              <p class="collected-note">Poslednje ažuriranje: <strong>[datum]</strong></p>
-            </div>
           </div>
 
           <!-- ── DESNO: QR kod + PayPal ── -->
@@ -949,6 +934,25 @@
           <p>Svaki prilog, svaka podela, svaka molba — to je deo naše zajedničke pobede.</p>
         </div>
       </div>
+    </div>
+
+    <div class="collected-box fi" style="margin-top:2rem">
+      <h3>💚 Prikupljena sredstva</h3>
+      <div class="collected-grid">
+        <div class="collected-row">
+          <span class="collected-lbl">🇷🇸 Dinarski (RSD)</span>
+          <span class="collected-val">0,00 RSD</span>
+        </div>
+        <div class="collected-row">
+          <span class="collected-lbl">🇪🇺 Devizni (EUR)</span>
+          <span class="collected-val">0,00 €</span>
+        </div>
+        <div class="collected-row">
+          <span class="collected-lbl">PayPal</span>
+          <span class="collected-val">0,00 €</span>
+        </div>
+      </div>
+      <p class="collected-note">Poslednje ažuriranje: <strong>[datum]</strong></p>
     </div>
   </div>
 </section>
