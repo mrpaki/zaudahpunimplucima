@@ -369,6 +369,9 @@
       border: 1px solid rgba(42,124,124,.1);
     }
     .pay-box h3 { font-size: 1.15rem; display: flex; align-items: center; gap: .5rem; margin-bottom: 1.5rem; color: var(--text-dark); }
+    .pay-inner-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5rem; }
+    .pay-col-right { display: flex; flex-direction: column; gap: 1rem; }
+    @media (max-width: 860px) { .pay-inner-grid { grid-template-columns: 1fr; } }
 
     .pay-row { margin-bottom: 1.1rem; }
     .pay-label { font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .35rem; }
@@ -671,7 +674,7 @@
     <!-- Porodična fotografija + tekst -->
     <div class="family-block fi">
       <div class="family-text">
-        <h3>Život koji nema cenu: Pomozimo Ani da pobedi i treći put</h3>
+        <h3>Život koji nema cenu:<br>Pomozimo Ani da pobedi i treći put</h3>
         <p>Postoje borbe koje čovek ne bira, ali koje mora da prihvati. Naša Ana Pupić trenutno prolazi kroz svoju najtežu, treću bitku sa opakom bolešću. Nakon što je već dva puta pokazala neverovatnu snagu, karcinom pluća se vratio – ovog puta još podmukliji i agresivniji. Ali, uprkos svemu, Ana je i dalje tu. Ne predaje se, jer predaja za nju nikada nije bila opcija.</p>
         <p>Ana je majka troje dece. Svaki njen udah, svaki novi dan i svaka terapija koju primi imaju samo jedan cilj – da ostane uz svoju decu, da ih gleda kako rastu i da im pruži ljubav koju samo majka može da da.</p>
         <p><strong>Snaga koja inspiriše, ali i kojoj je potrebna podrška</strong><br>
@@ -822,110 +825,106 @@
           Podaci za uplatu
         </h3>
 
-        <div class="pay-row">
-          <div class="pay-label">Primalac</div>
-          <div class="pay-field">
-            <span class="pay-val">Ana Pupić</span>
-          </div>
-        </div>
+        <div class="pay-inner-grid">
 
-        <!-- ── Dinarski račun ── -->
-        <div class="pay-section-lbl">🇷🇸 Dinarski račun (RSD)</div>
+          <!-- ── LEVO: računi + telefoni ── -->
+          <div class="pay-col-left">
+            <div class="pay-row">
+              <div class="pay-label">Primalac</div>
+              <div class="pay-field">
+                <span class="pay-val">Ana Pupić</span>
+              </div>
+            </div>
 
-        <div class="pay-row">
-          <div class="pay-label">Broj računa</div>
-          <div class="pay-field">
-            <span class="pay-val" id="acc-rsd">325-9300500192231-04</span>
-            <button class="copy-btn" onclick="doCopy('acc-rsd',this)" aria-label="Kopiraj dinarski broj računa">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Kopiraj
-            </button>
-          </div>
-        </div>
+            <div class="pay-section-lbl">🇷🇸 Dinarski račun (RSD)</div>
+            <div class="pay-row">
+              <div class="pay-label">Broj računa</div>
+              <div class="pay-field">
+                <span class="pay-val" id="acc-rsd">325-9300500192231-04</span>
+                <button class="copy-btn" onclick="doCopy('acc-rsd',this)" aria-label="Kopiraj dinarski broj računa">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Kopiraj
+                </button>
+              </div>
+            </div>
+            <div class="pay-row">
+              <div class="pay-label">Svrha uplate</div>
+              <div class="pay-field">
+                <span class="pay-val">Donacija za lečenje Ane Pupić</span>
+              </div>
+            </div>
 
-        <div class="pay-row">
-          <div class="pay-label">Svrha uplate</div>
-          <div class="pay-field">
-            <span class="pay-val">Donacija za lečenje Ane Pupić</span>
-          </div>
-        </div>
+            <div class="pay-section-lbl eur">🇪🇺 Devizni račun (EUR)</div>
+            <div class="pay-row">
+              <div class="pay-label">Broj računa</div>
+              <div class="pay-field">
+                <span class="pay-val" id="acc-eur">325-9341500294226-43</span>
+                <button class="copy-btn" onclick="doCopy('acc-eur',this)" aria-label="Kopiraj devizni broj računa">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Kopiraj
+                </button>
+              </div>
+            </div>
+            <div class="pay-row">
+              <div class="pay-label">Svrha uplate</div>
+              <div class="pay-field">
+                <span class="pay-val">Donation for Ana Pupić treatment</span>
+              </div>
+            </div>
 
-        <!-- ── Devizni račun ── -->
-        <div class="pay-section-lbl eur">🇪🇺 Devizni račun (EUR)</div>
-
-        <div class="pay-row">
-          <div class="pay-label">Broj računa</div>
-          <div class="pay-field">
-            <span class="pay-val" id="acc-eur">325-9341500294226-43</span>
-            <button class="copy-btn" onclick="doCopy('acc-eur',this)" aria-label="Kopiraj devizni broj računa">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Kopiraj
-            </button>
-          </div>
-        </div>
-
-        <div class="pay-row">
-          <div class="pay-label">Svrha uplate</div>
-          <div class="pay-field">
-            <span class="pay-val">Donation for Ana Pupić treatment</span>
-          </div>
-        </div>
-
-        <!-- ── Telefon ── -->
-        <div class="pay-section-lbl tel">📞 Kontakt za donacije</div>
-
-        <a href="tel:+381641137704" class="tel-row" aria-label="Pozovi +381 64 113 7704">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span class="tel-link">+381 64 113 7704</span>
-          <button class="copy-btn" onclick="event.preventDefault();doCopy('tel1',this)" aria-label="Kopiraj broj telefona">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiraj
-          </button>
-          <span id="tel1" style="display:none">+381641137704</span>
-        </a>
-
-        <a href="tel:+381641595986" class="tel-row" aria-label="Pozovi +381 64 159 5986">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span class="tel-link">+381 64 159 5986</span>
-          <button class="copy-btn" onclick="event.preventDefault();doCopy('tel2',this)" aria-label="Kopiraj broj telefona">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiraj
-          </button>
-          <span id="tel2" style="display:none">+381641595986</span>
-        </a>
-
-        <div class="pay-label" style="margin-top:1.1rem;margin-bottom:.35rem">PayPal</div>
-        <div class="paypal-field">
-          <span class="pp-logo">Pay<span>Pal</span></span>
-          <!-- ▶ ZAMENI PayPal email adresom -->
-          <span class="pay-val" id="pp">[paypal@example.com]</span>
-          <button class="copy-btn" onclick="doCopy('pp',this)" aria-label="Kopiraj PayPal email">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiraj
-          </button>
-        </div>
-
-        <div class="qr-zone" role="group" aria-label="IPS QR kod za dinarsku uplatu">
-          <p class="qr-zone-title">📲 Skeniraj i uplati — IPS QR</p>
-
-          <div class="qr-amounts" role="group" aria-label="Izaberi iznos donacije">
-            <button class="qr-amt active" onclick="setQRAmt(500,this)"  aria-label="500 dinara">500</button>
-            <button class="qr-amt"        onclick="setQRAmt(1000,this)" aria-label="1000 dinara">1.000</button>
-            <button class="qr-amt"        onclick="setQRAmt(2000,this)" aria-label="2000 dinara">2.000</button>
-            <button class="qr-amt"        onclick="setQRAmt(5000,this)" aria-label="5000 dinara">5.000</button>
+            <div class="pay-section-lbl tel">📞 Kontakt za donacije</div>
+            <a href="tel:+381641137704" class="tel-row" aria-label="Pozovi +381 64 113 7704">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span class="tel-link">+381 64 113 7704</span>
+              <button class="copy-btn" onclick="event.preventDefault();doCopy('tel1',this)" aria-label="Kopiraj broj telefona">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Kopiraj
+              </button>
+              <span id="tel1" style="display:none">+381641137704</span>
+            </a>
+            <a href="tel:+381641595986" class="tel-row" aria-label="Pozovi +381 64 159 5986">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span class="tel-link">+381 64 159 5986</span>
+              <button class="copy-btn" onclick="event.preventDefault();doCopy('tel2',this)" aria-label="Kopiraj broj telefona">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Kopiraj
+              </button>
+              <span id="tel2" style="display:none">+381641595986</span>
+            </a>
           </div>
 
-          <div class="qr-custom">
-            <input type="number" id="qr-input" placeholder="Drugi iznos (RSD)" min="100" max="999999" aria-label="Unesi iznos donacije">
-            <button onclick="setQRCustom()" aria-label="Generiši QR za uneseni iznos">OK</button>
+          <!-- ── DESNO: QR kod + PayPal ── -->
+          <div class="pay-col-right">
+            <div class="qr-zone" role="group" aria-label="IPS QR kod za dinarsku uplatu">
+              <p class="qr-zone-title">📲 Skeniraj i uplati — IPS QR</p>
+              <div class="qr-amounts" role="group" aria-label="Izaberi iznos donacije">
+                <button class="qr-amt active" onclick="setQRAmt(500,this)"  aria-label="500 dinara">500</button>
+                <button class="qr-amt"        onclick="setQRAmt(1000,this)" aria-label="1000 dinara">1.000</button>
+                <button class="qr-amt"        onclick="setQRAmt(2000,this)" aria-label="2000 dinara">2.000</button>
+                <button class="qr-amt"        onclick="setQRAmt(5000,this)" aria-label="5000 dinara">5.000</button>
+              </div>
+              <div class="qr-custom">
+                <input type="number" id="qr-input" placeholder="Drugi iznos (RSD)" min="100" max="999999" aria-label="Unesi iznos donacije">
+                <button onclick="setQRCustom()" aria-label="Generiši QR za uneseni iznos">OK</button>
+              </div>
+              <div id="qr-canvas" aria-live="polite">
+                <img id="qr-img" src="" alt="IPS QR kod za uplatu" width="180" height="180" style="border-radius:10px;border:3px solid rgba(42,124,124,.15);display:block;margin:0 auto;">
+              </div>
+              <p class="qr-amount-display" id="qr-amt-label">500 RSD</p>
+              <p class="qr-lbl">IPS QR • Dinarski račun • Kompatibilno sa svim srpskim bankarskim aplikacijama</p>
+            </div>
+
+            <div class="pay-label" style="margin-bottom:.35rem">PayPal</div>
+            <div class="paypal-field">
+              <span class="pp-logo">Pay<span>Pal</span></span>
+              <span class="pay-val" id="pp">[paypal@example.com]</span>
+              <button class="copy-btn" onclick="doCopy('pp',this)" aria-label="Kopiraj PayPal email">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Kopiraj
+              </button>
+            </div>
           </div>
 
-          <div id="qr-canvas" aria-live="polite">
-            <img id="qr-img" src="" alt="IPS QR kod za uplatu" width="180" height="180" style="border-radius:10px;border:3px solid rgba(42,124,124,.15);display:block;margin:0 auto;">
-          </div>
-
-          <p class="qr-amount-display" id="qr-amt-label">500 RSD</p>
-          <p class="qr-lbl">IPS QR • Dinarski račun • Kompatibilno sa svim srpskim bankarskim aplikacijama</p>
         </div>
       </div>
 
