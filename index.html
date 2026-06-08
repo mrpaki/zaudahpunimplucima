@@ -467,24 +467,17 @@
     .qr-lbl { font-size: .75rem; color: var(--text-muted); }
     .qr-loading { font-size: .85rem; color: var(--text-muted); }
 
-    .amounts-box {
-      background: var(--warm-white); border-radius: var(--r-md);
-      padding: 2rem; box-shadow: var(--sh-sm);
-      border: 1px solid rgba(42,124,124,.1);
+    .collected-box {
+      background: rgba(42,124,124,.07); border-radius: var(--r-md);
+      padding: 1.4rem 1.6rem; margin-top: 1.25rem;
+      border: 1px solid rgba(42,124,124,.15);
     }
-    .amounts-box h3 { font-size: 1.15rem; margin-bottom: .5rem; }
-    .amounts-box > p { font-size: .9rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-
-    .amt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-bottom: 1.5rem; }
-    .amt-btn {
-      padding: 1rem; border: 2px solid rgba(42,124,124,.18);
-      border-radius: var(--r-sm); background: var(--card-bg);
-      font-size: .97rem; font-weight: 700; color: var(--text-dark);
-      transition: var(--ease);
-    }
-    .amt-btn:hover, .amt-btn.sel { border-color: var(--teal); background: rgba(42,124,124,.07); color: var(--teal); }
-    .amt-btn.other { border-style: dashed; font-weight: 400; color: var(--text-muted); font-size: .93rem; }
-    .amt-btn.other:hover { border-color: var(--amber); color: var(--amber); background: rgba(212,136,42,.05); }
+    .collected-box h3 { font-family: var(--font-h); font-size: 1rem; color: var(--teal); margin-bottom: 1rem; display: flex; align-items: center; gap: .4rem; }
+    .collected-row { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid rgba(42,124,124,.1); }
+    .collected-row:last-of-type { border-bottom: none; }
+    .collected-lbl { font-size: .84rem; color: var(--text-muted); }
+    .collected-val { font-family: 'Courier New', monospace; font-weight: 700; color: var(--teal); font-size: .97rem; }
+    .collected-note { font-size: .75rem; color: var(--text-muted); margin-top: .85rem; font-style: italic; text-align: right; }
 
     .transp {
       background: rgba(42,124,124,.07); border-radius: var(--r-sm);
@@ -891,6 +884,22 @@
               </button>
               <span id="tel2" style="display:none">+381641595986</span>
             </a>
+            <div class="collected-box">
+              <h3>💚 Prikupljena sredstva</h3>
+              <div class="collected-row">
+                <span class="collected-lbl">🇷🇸 Dinarski (RSD)</span>
+                <span class="collected-val">0,00 RSD</span>
+              </div>
+              <div class="collected-row">
+                <span class="collected-lbl">🇪🇺 Devizni (EUR)</span>
+                <span class="collected-val">0,00 €</span>
+              </div>
+              <div class="collected-row">
+                <span class="collected-lbl">PayPal</span>
+                <span class="collected-val">0,00 €</span>
+              </div>
+              <p class="collected-note">Poslednje ažuriranje: <strong>[datum]</strong></p>
+            </div>
           </div>
 
           <!-- ── DESNO: QR kod + PayPal ── -->
@@ -929,22 +938,8 @@
       </div>
 
       <div style="display:flex;flex-direction:column;gap:1.5rem">
-        <div class="amounts-box fi d1">
-          <h3>Predloženi iznosi</h3>
-          <p>Odaberite iznos ili uplatite koliko možete — sve je dragoceno.</p>
-          <div class="amt-grid" role="group" aria-label="Predloženi iznosi donacije">
-            <button class="amt-btn" onclick="selAmt(this)">500 RSD</button>
-            <button class="amt-btn" onclick="selAmt(this)">1.000 RSD</button>
-            <button class="amt-btn" onclick="selAmt(this)">2.000 RSD</button>
-            <button class="amt-btn other" onclick="selAmt(this)">✏️ Drugi iznos</button>
-          </div>
-          <a href="#pay-info" class="btn btn-donate btn-full">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            Doniraj sada
-          </a>
-        </div>
 
-        <div class="transp fi d2" role="note">
+        <div class="transp fi d1" role="note">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <p><strong>Sva sredstva se koriste isključivo za lečenje.</strong> Redovno ćemo objavljivati transparentne izveštaje o upotrebi prikupljenih sredstava.</p>
         </div>
