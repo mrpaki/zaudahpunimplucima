@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radovi u toku — Za Udah Punim Plućima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:       #FAF7F2;
+      --teal:        #2A7C7C;
+      --teal-light:  #3D9E9E;
+      --amber:       #D4882A;
+      --amber-light: #F0A94A;
+      --text-dark:   #2C2C2C;
+      --text-muted:  #6B6B6B;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      background: linear-gradient(140deg, #FAF7F2 0%, #FEF0DC 45%, #FBE3CA 75%, #F8D9BD 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    /* Decorative background circles */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    body::before {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(42,124,124,.06) 0%, transparent 70%);
+      top: -200px; right: -200px;
+    }
+    body::after {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(212,136,42,.05) 0%, transparent 70%);
+      bottom: -150px; left: -150px;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-width: 640px;
+      width: 100%;
+    }
+
+    /* Tag */
+    .tag {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--amber);
+      background: rgba(212,136,42,.1);
+      padding: .3rem 1rem; border-radius: 50px;
+      margin-bottom: 1.5rem;
+      animation: fadeDown .8s ease both;
+    }
+    .tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+
+    /* H1 */
+    h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text-dark);
+      margin-bottom: 2rem;
+      animation: fadeDown .8s .1s ease both;
+    }
+    h1 .w2 { color: #E09638; }
+    h1 .w3 { color: var(--teal); }
+
+    /* Lung image */
+    .lung-wrap {
+      position: relative;
+      width: min(280px, 55vw);
+      margin: 0 auto 2rem;
+      animation: fadeUp .9s .2s ease both;
+    }
+    .lung-wrap img {
+      width: 100%;
+      filter: drop-shadow(0 8px 24px rgba(42,124,124,.3)) drop-shadow(0 0 12px rgba(212,136,42,.2));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    /* H2 */
+    h2 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: .6rem;
+      font-style: italic;
+      animation: fadeUp .8s .35s ease both;
+    }
+
+    .sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      animation: fadeUp .8s .45s ease both;
+    }
+
+    /* Divider */
+    .bar {
+      width: 52px; height: 3px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--teal), var(--amber));
+      margin: 0 auto 2.5rem;
+      animation: fadeUp .8s .5s ease both;
+    }
+
+    /* Progress dots */
+    .dots {
+      display: flex; gap: .6rem; justify-content: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .8s .55s ease both;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(42,124,124,.2);
+    }
+    .dot.on {
+      background: var(--teal);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    .dot:nth-child(2).on { animation-delay: .3s; }
+    .dot:nth-child(3).on { animation-delay: .6s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .4; transform: scale(.75); }
+    }
+
+    /* Back link */
+    .back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .9rem; font-weight: 600;
+      color: var(--teal);
+      text-decoration: none;
+      border: 2px solid var(--teal);
+      padding: .6rem 1.4rem; border-radius: 50px;
+      transition: all .25s ease;
+      animation: fadeUp .8s .65s ease both;
+    }
+    .back:hover {
+      background: var(--teal); color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(42,124,124,.25);
+    }
+
+    /* Footer line */
+    .foot {
+      position: fixed; bottom: 1.5rem;
+      font-size: .75rem; color: rgba(44,44,44,.35);
+      letter-spacing: .04em;
+    }
+
+    /* Animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <span class="tag">Radovi u toku</span>
+
+    <h1>Za Udah <span class="w2">Punim</span><br><span class="w3">Plućima</span></h1>
+
+    <div class="lung-wrap">
+      <img src="logo-pluca.png" alt="Za udah punim plućima">
+    </div>
+
+    <h2>Uskoro na mreži</h2>
+    <p class="sub">Pripremamo nešto posebno. Hvala na strpljenju.</p>
+
+    <div class="bar"></div>
+
+    <div class="dots">
+      <div class="dot on"></div>
+      <div class="dot on"></div>
+      <div class="dot on"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <a href="index.html" class="back">← Nazad na sajt</a>
+  </div>
+
+  <p class="foot">Ana Pupić &nbsp;·&nbsp; Za udah punim plućima</p>
+
+</body>
+</html>
