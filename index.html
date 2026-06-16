@@ -172,8 +172,11 @@
     .nav-links .nav-cta:hover { background: var(--amber-light); }
 
     /* Language switch */
+    .nav-right {
+      display: flex; align-items: center; gap: 8px;
+    }
     .lang-sw {
-      display: flex; gap: 4px; align-items: center; margin-left: .75rem;
+      display: flex; gap: 4px; align-items: center;
     }
     .lang-btn {
       background: none; border: 2px solid rgba(42,124,124,.15);
@@ -585,13 +588,15 @@
         <li><a href="#kako-pomoci" data-i18n="nav-help">Kako pomoći</a></li>
         <li><a href="#donacije" class="nav-cta" data-i18n="nav-donate">Donacije</a></li>
       </ul>
-      <div class="lang-sw" aria-label="Izbor jezika">
-        <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')" title="Srpski">🇷🇸</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇬🇧</button>
+      <div class="nav-right">
+        <div class="lang-sw" aria-label="Izbor jezika">
+          <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')" title="Srpski">🇷🇸</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇬🇧</button>
+        </div>
+        <button class="ham" id="ham" aria-label="Otvori meni" aria-expanded="false" aria-controls="mob">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <button class="ham" id="ham" aria-label="Otvori meni" aria-expanded="false" aria-controls="mob">
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </div>
 </nav>
