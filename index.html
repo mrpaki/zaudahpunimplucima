@@ -181,10 +181,10 @@
     .lang-btn {
       background: none; border: 2px solid rgba(42,124,124,.15);
       border-radius: 8px; padding: .15rem .3rem;
-      font-size: 1.35rem; line-height: 1;
-      cursor: pointer; transition: var(--ease);
-      opacity: .5;
+      line-height: 0; cursor: pointer; transition: var(--ease);
+      opacity: .5; display: inline-flex; align-items: center;
     }
+    .lang-btn img { width: 24px; height: 24px; display: block; }
     .lang-btn.active { border-color: var(--teal); opacity: 1; box-shadow: 0 0 0 2px rgba(42,124,124,.2); }
     .lang-btn:hover:not(.active) { border-color: var(--teal-light); opacity: .8; }
 
@@ -590,8 +590,12 @@
       </ul>
       <div class="nav-right">
         <div class="lang-sw" aria-label="Izbor jezika">
-          <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')" title="Srpski">🇷🇸</button>
-          <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇬🇧</button>
+          <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')" title="Srpski">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f7-1f1f8.svg" alt="Srpski">
+          </button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" alt="English">
+          </button>
         </div>
         <button class="ham" id="ham" aria-label="Otvori meni" aria-expanded="false" aria-controls="mob">
           <span></span><span></span><span></span>
