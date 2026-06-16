@@ -173,17 +173,17 @@
 
     /* Language switch */
     .lang-sw {
-      display: flex; gap: 3px; align-items: center; margin-left: .75rem;
+      display: flex; gap: 4px; align-items: center; margin-left: .75rem;
     }
     .lang-btn {
-      background: none; border: 2px solid rgba(42,124,124,.2);
-      border-radius: 50px; padding: .2rem .6rem;
-      font-size: .75rem; font-weight: 700; color: var(--text-muted);
-      cursor: pointer; transition: var(--ease); font-family: var(--font-b);
-      line-height: 1.4;
+      background: none; border: 2px solid rgba(42,124,124,.15);
+      border-radius: 8px; padding: .15rem .3rem;
+      font-size: 1.35rem; line-height: 1;
+      cursor: pointer; transition: var(--ease);
+      opacity: .5;
     }
-    .lang-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
-    .lang-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+    .lang-btn.active { border-color: var(--teal); opacity: 1; box-shadow: 0 0 0 2px rgba(42,124,124,.2); }
+    .lang-btn:hover:not(.active) { border-color: var(--teal-light); opacity: .8; }
 
     /* Hamburger */
     .ham {
@@ -213,14 +213,6 @@
       color: #fff; padding: 1rem; border-radius: 50px;
       font-weight: 700; text-align: center;
     }
-    .mob-lang {
-      display: flex; gap: 6px; margin-top: 1.2rem; padding-top: 1rem;
-      border-top: 1px solid rgba(42,124,124,.1);
-    }
-    .mob-lang .lang-btn {
-      flex: 1; text-align: center; padding: .4rem; font-size: .85rem;
-    }
-
     /* ══════════════════════════════════════════════════════════════
        HERO
     ══════════════════════════════════════════════════════════════ */
@@ -562,7 +554,6 @@
     @media (max-width: 768px) {
       section { padding: 3.5rem 0; }
       .nav-links { display: none; }
-      .lang-sw { display: none; }
       .ham { display: flex; }
       .help-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
       .don-grid  { grid-template-columns: 1fr; }
@@ -595,8 +586,8 @@
         <li><a href="#donacije" class="nav-cta" data-i18n="nav-donate">Donacije</a></li>
       </ul>
       <div class="lang-sw" aria-label="Izbor jezika">
-        <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')">SR</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')" title="Srpski">🇷🇸</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')" title="English">🇬🇧</button>
       </div>
       <button class="ham" id="ham" aria-label="Otvori meni" aria-expanded="false" aria-controls="mob">
         <span></span><span></span><span></span>
@@ -611,10 +602,6 @@
   <a href="#zdravlje"    class="mob-link" data-mob data-i18n="nav-health">Zdravlje</a>
   <a href="#kako-pomoci" class="mob-link" data-mob data-i18n="nav-help">Kako pomoći</a>
   <a href="#donacije"    class="mob-donate" data-mob data-i18n="mob-donate">♥ Donacije</a>
-  <div class="mob-lang">
-    <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')">SR</button>
-    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-  </div>
 </div>
 
 
