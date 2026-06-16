@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Full Breath — Ana Pupić</title>
-  <meta name="description" content="Help Ana Pupić in her fight against lung cancer. Follow health updates and support us with a donation.">
+  <title>Za udah Punim Plućima — Ana Pupić</title>
+  <meta id="meta-desc" name="description" content="Pomozite Ana Pupić u borbi protiv raka pluća. Pratite zdravstvene novosti i podržite nas donacijom.">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mrpaki.github.io/zaudahpunimplucima/">
-  <meta property="og:title" content="A Full Breath — Ana Pupić">
-  <meta property="og:description" content="Help Ana Pupić in her fight against lung cancer. Follow health updates and support us with a donation.">
+  <meta property="og:title" content="Za Udah Punim Plućima — Ana Pupić">
+  <meta property="og:description" content="Pomozite Ana Pupić u borbi protiv raka pluća. Pratite zdravstvene novosti i podržite nas donacijom.">
   <meta property="og:image" content="https://mrpaki.github.io/zaudahpunimplucima/og-slika.jpg">
-  <meta property="og:locale" content="en_US">
+  <meta property="og:locale" content="sr_RS">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="A Full Breath — Ana Pupić">
-  <meta name="twitter:description" content="Help Ana Pupić in her fight against lung cancer. Follow health updates and support us with a donation.">
+  <meta name="twitter:title" content="Za Udah Punim Plućima — Ana Pupić">
+  <meta name="twitter:description" content="Pomozite Ana Pupić u borbi protiv raka pluća. Pratite zdravstvene novosti i podržite nas donacijom.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -171,6 +171,20 @@
     .nav-links .nav-cta::after { display: none; }
     .nav-links .nav-cta:hover { background: var(--amber-light); }
 
+    /* Language switch */
+    .lang-sw {
+      display: flex; gap: 3px; align-items: center; margin-left: .75rem;
+    }
+    .lang-btn {
+      background: none; border: 2px solid rgba(42,124,124,.2);
+      border-radius: 50px; padding: .2rem .6rem;
+      font-size: .75rem; font-weight: 700; color: var(--text-muted);
+      cursor: pointer; transition: var(--ease); font-family: var(--font-b);
+      line-height: 1.4;
+    }
+    .lang-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .lang-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+
     /* Hamburger */
     .ham {
       display: none; flex-direction: column; gap: 5px;
@@ -198,6 +212,13 @@
       margin-top: 1.5rem; background: linear-gradient(135deg, var(--amber), var(--amber-light));
       color: #fff; padding: 1rem; border-radius: 50px;
       font-weight: 700; text-align: center;
+    }
+    .mob-lang {
+      display: flex; gap: 6px; margin-top: 1.2rem; padding-top: 1rem;
+      border-top: 1px solid rgba(42,124,124,.1);
+    }
+    .mob-lang .lang-btn {
+      flex: 1; text-align: center; padding: .4rem; font-size: .85rem;
     }
 
     /* ══════════════════════════════════════════════════════════════
@@ -541,6 +562,7 @@
     @media (max-width: 768px) {
       section { padding: 3.5rem 0; }
       .nav-links { display: none; }
+      .lang-sw { display: none; }
       .ham { display: flex; }
       .help-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
       .don-grid  { grid-template-columns: 1fr; }
@@ -560,19 +582,23 @@
 <body>
 
 <!-- NAVIGATION -->
-<nav id="nav" role="navigation" aria-label="Main navigation">
+<nav id="nav" role="navigation" aria-label="Glavna navigacija">
   <div class="container">
     <div class="nav-row">
-      <a href="#hero" class="nav-logo" aria-label="Back to top">
+      <a href="#hero" class="nav-logo" aria-label="Na početak stranice">
         A<span>P</span>
       </a>
       <ul class="nav-links">
-        <li><a href="#prica">Story</a></li>
-        <li><a href="#zdravlje">Health</a></li>
-        <li><a href="#kako-pomoci">How to Help</a></li>
-        <li><a href="#donacije" class="nav-cta">Donate</a></li>
+        <li><a href="#prica" data-i18n="nav-story">Priča</a></li>
+        <li><a href="#zdravlje" data-i18n="nav-health">Zdravlje</a></li>
+        <li><a href="#kako-pomoci" data-i18n="nav-help">Kako pomoći</a></li>
+        <li><a href="#donacije" class="nav-cta" data-i18n="nav-donate">Donacije</a></li>
       </ul>
-      <button class="ham" id="ham" aria-label="Open menu" aria-expanded="false" aria-controls="mob">
+      <div class="lang-sw" aria-label="Izbor jezika">
+        <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')">SR</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+      <button class="ham" id="ham" aria-label="Otvori meni" aria-expanded="false" aria-controls="mob">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -580,16 +606,20 @@
 </nav>
 
 <!-- Mobile overlay -->
-<div id="mob" role="dialog" aria-label="Mobile menu" aria-modal="true">
-  <a href="#prica"       class="mob-link" data-mob>Story</a>
-  <a href="#zdravlje"    class="mob-link" data-mob>Health</a>
-  <a href="#kako-pomoci" class="mob-link" data-mob>How to Help</a>
-  <a href="#donacije"    class="mob-donate" data-mob>♥ Donate</a>
+<div id="mob" role="dialog" aria-label="Mobilni meni" aria-modal="true">
+  <a href="#prica"       class="mob-link" data-mob data-i18n="nav-story">Priča</a>
+  <a href="#zdravlje"    class="mob-link" data-mob data-i18n="nav-health">Zdravlje</a>
+  <a href="#kako-pomoci" class="mob-link" data-mob data-i18n="nav-help">Kako pomoći</a>
+  <a href="#donacije"    class="mob-donate" data-mob data-i18n="mob-donate">♥ Donacije</a>
+  <div class="mob-lang">
+    <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')">SR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
 </div>
 
 
 <!-- HERO -->
-<section id="hero" aria-label="Hero section">
+<section id="hero" aria-label="Naslovna sekcija">
   <svg class="hero-motif" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M200 220 C195 180 185 130 160 100 C138 73 105 65 85 80 C62 97 60 130 75 160 C88 187 115 205 148 218 L200 240Z"
           stroke="#2A7C7C" stroke-width="3" stroke-linecap="round"/>
@@ -610,38 +640,38 @@
 
   <div class="container">
     <div class="hero-body fi">
-      <p class="hero-eyebrow">Fight and Hope</p>
-      <h1 class="hero-title">A Full <span>Breath</span></h1>
+      <p class="hero-eyebrow" data-i18n="hero-eyebrow">Borba i nada</p>
+      <h1 class="hero-title" data-i18n="hero-title">Za Udah <span>Punim</span><br><span class="ht-teal">Plućima</span></h1>
       <p class="hero-name">— Ana Pupić —</p>
-      <p class="hero-desc">
-        A story of courage, hope, and love that never ends.<br>
-        Help us continue this fight together.
+      <p class="hero-desc" data-i18n="hero-desc">
+        Priča o hrabrosti, nadi i ljubavi koja ne prestaje.<br>
+        Pomozite nam da nastavimo ovu borbu zajedno.
       </p>
       <div class="hero-btns">
-        <a href="#prica" class="btn btn-primary" aria-label="Learn more about the story">
+        <a href="#prica" class="btn btn-primary" aria-label="Saznaj više o priči">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-          Learn More
+          <span data-i18n="hero-btn-learn">Saznaj više</span>
         </a>
-        <a href="#donacije" class="btn btn-donate" aria-label="Donate now">
+        <a href="#donacije" class="btn btn-donate" aria-label="Doniraj sada">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Donate Now
+          <span data-i18n="hero-btn-donate">Doniraj sada</span>
         </a>
       </div>
       <div class="hero-stats">
         <div>
           <span class="stat-n" id="stat-meseci"></span>
-          <span class="stat-l">Months of Treatment</span>
+          <span class="stat-l" data-i18n="stat-months">Meseci lečenja</span>
         </div>
         <div>
           <span class="stat-n">1200+</span>
-          <span class="stat-l">Supporters</span>
+          <span class="stat-l" data-i18n="stat-supporters">Podržavača</span>
         </div>
         <div>
           <span class="stat-n" id="stat-ciklusi"></span>
-          <span class="stat-l">Treatment Cycles</span>
+          <span class="stat-l" data-i18n="stat-cycles">Ciklusa terapije</span>
         </div>
       </div>
-      <img src="logo-pluca.png" alt="A Full Breath" class="hero-lung">
+      <img src="logo-pluca.png" alt="Za udah punim plućima" class="hero-lung">
     </div>
   </div>
 </section>
@@ -657,32 +687,31 @@
         </div>
       </div>
       <div class="fi-r">
-        <span class="s-tag">My Story</span>
-        <h2 id="h-prica">Every Day Is a Gift to Cherish</h2>
+        <span class="s-tag" data-i18n="story-tag">Moja priča</span>
+        <h2 id="h-prica" data-i18n="story-h2">Svaki dan je dar koji treba čuvati</h2>
         <div class="s-bar"></div>
-        <p>The diagnosis of lung cancer came like a bolt out of the blue. In one moment, an entire life changed — plans, dreams, daily routines. But what could not change was the will to fight, to love, to live wholeheartedly every day that comes.</p>
+        <p data-i18n="story-p1">Dijagnoza raka pluća stigla je kao grom iz vedra neba. U jednom trenutku, ceo život se promenio — planovi, snovi, svakodnevnica. Ali ono što nije moglo da se promeni jeste volja da se bori, da se voli, da se živi punim srcem svaki dan koji dolazi.</p>
         <div class="pull-q">
-          <p>As long as there is hope and support, the fight continues. Every donation, every kind word — it is not a small thing. It is oxygen for the soul.</p>
+          <p data-i18n="story-pullq">Dok god postoji nada i podrška, borba se nastavlja. Svaka donacija, svaka lepa reč — to nije sitnica. To je kiseonik za dušu.</p>
         </div>
-        <p>Months of treatment brought challenges I could never have imagined. Chemotherapy, hospital corridors, exhaustion that reaches to the bone — but also the boundless warmth of family, friends, and strangers who became guardian angels in the hardest moments.</p>
-        <p>This page was created out of a need to share our journey — the good days and the bad — and to thank everyone who stands by us. Your help, however large or small, directly contributes to the treatments and medicines that give us a chance for tomorrow.</p>
+        <p data-i18n="story-p2">Meseci lečenja doneli su izazove kakve nisam mogla ni zamisliti. Hemoterapija, bolnički hodnici, umor koji prodire do kosti — ali i beskonačna toplina porodice, prijatelja i stranaca koji su postali anđeli čuvari u najtežim trenucima.</p>
+        <p data-i18n="story-p3">Ova stranica je nastala iz potrebe da podelimo naš put — i dobre i loše dane — i da zahvalimo svima koji su uz nas. Vaša pomoć, ma kolika bila, direktno doprinosi tretmanima i lekovima koji nam daju šansu za sutra.</p>
       </div>
     </div>
 
-    <!-- Porodična fotografija + tekst -->
     <div class="family-block fi">
       <div class="family-text">
-        <h3>A Life Beyond Price:<br>Let's Help Ana Win for the Third Time</h3>
-        <p>There are battles a person does not choose, but must accept. Our Ana Pupić is currently going through her hardest, third fight against this terrible disease. Having already shown incredible strength twice, the lung cancer has returned — this time even more insidious and aggressive. But despite everything, Ana is still here. She does not give up, because giving up has never been an option for her.</p>
-        <p>Ana is a mother of three children. Every breath she takes, every new day, and every therapy she receives has only one goal — to stay with her children, to watch them grow, and to give them the love only a mother can give.</p>
-        <p><strong>A strength that inspires, but that also needs support</strong><br>
-        The previous battles have pushed Ana to her limits, both physically and emotionally. Her body is tired, but the spirit of this brave woman refuses to back down. However, in this round of treatment, Ana can no longer do it alone. She needs us.</p>
-        <p>She now needs our combined strength so that she can continue her treatment and be given a chance at life. Every donation, every shared story, and every word of support is wind at her back and a step closer to her recovery.</p>
-        <p>Let us show Ana that she is not alone in this round.<br>
-        Let us help a mother win for the third time, because her children and her family deserve to have her by their side.</p>
+        <h3 data-i18n="family-h3">Život koji nema cenu:<br>Pomozimo Ani da pobedi i treći put</h3>
+        <p data-i18n="family-p1">Postoje borbe koje čovek ne bira, ali koje mora da prihvati. Naša Ana Pupić trenutno prolazi kroz svoju najtežu, treću bitku sa opakom bolešću. Nakon što je već dva puta pokazala neverovatnu snagu, karcinom pluća se vratio – ovog puta još podmukliji i agresivniji. Ali, uprkos svemu, Ana je i dalje tu. Ne predaje se, jer predaja za nju nikada nije bila opcija.</p>
+        <p data-i18n="family-p2">Ana je majka troje dece. Svaki njen udah, svaki novi dan i svaka terapija koju primi imaju samo jedan cilj – da ostane uz svoju decu, da ih gleda kako rastu i da im pruži ljubav koju samo majka može da da.</p>
+        <p data-i18n="family-p3"><strong>Snaga koja inspiriše, ali i kojoj je potrebna podrška</strong><br>
+        Prethodne bitke su Anu iscrpele do krajnjih granica, i fizički i psihički. Telo je umorno, ali duh ove hrabre žene odbija da ustukne. Međutim, u ovoj rundi lečenja, Ana više ne može sama. Potrebni smo joj mi.</p>
+        <p data-i18n="family-p4">Sada joj je neophodna naša zajednička snaga kako bi mogla da nastavi lečenje i dobije šansu za život. Svaka donacija, svaka podeljena priča i svaka reč podrške vetar su u leđa njenoj borbi i korak bliže njenom ozdravljenju.</p>
+        <p data-i18n="family-p5">Pokažimo Ani da nije sama u ovoj rundi.<br>
+        Pomozimo jednoj majci da pobedi i treći put, jer njena deca i njena porodica zaslužuju da je imaju pored sebe.</p>
       </div>
       <div class="photo-frame-family">
-        <img src="pupici_za_sajt.jpg" alt="The Pupić Family">
+        <img src="pupici_za_sajt.jpg" alt="Porodica Pupić">
       </div>
     </div>
   </div>
@@ -693,10 +722,10 @@
 <section id="zdravlje" aria-labelledby="h-zdravlje">
   <div class="container">
     <div class="h-center fi">
-      <span class="s-tag">Updates</span>
-      <h2 id="h-zdravlje">Health Status</h2>
+      <span class="s-tag" data-i18n="health-tag">Ažuriranja</span>
+      <h2 id="h-zdravlje" data-i18n="health-h2">Zdravstveno stanje</h2>
       <div class="s-bar center"></div>
-      <p class="s-sub center">We share every update transparently and with love. Thank you for being with us.</p>
+      <p class="s-sub center" data-i18n="health-sub">Transparentno i sa ljubavlju delimo svako ažuriranje. Hvala vam što ste uz nas.</p>
     </div>
 
     <div class="timeline" style="margin-top:2.5rem" role="list">
@@ -706,11 +735,11 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 June 2021</span>
-            <span class="badge badge-s">Treatment Completed</span>
+            <span class="tl-date" data-i18n="tl1-date">📅 jun 2021</span>
+            <span class="badge badge-s" data-i18n="tl1-badge">Završeno lečenje</span>
           </div>
-          <h4>Cervical Cancer — Diagnosis and Treatment</h4>
-          <p>Diagnosed with invasive squamous cell carcinoma of the cervix, stage FIGO IIIB, grade G2/NG2. Radical pelvic radiotherapy was conducted with concurrent chemotherapy using cisplatin (CDDP). Treatment completed in June 2021. Subsequent follow-ups (MRI and CT) showed no evidence of relapse.</p>
+          <h4 data-i18n="tl1-h4">Karcinom grlića materice — dijagnoza i lečenje</h4>
+          <p data-i18n="tl1-p">Dijagnostikovan invazivni planocelularni karcinom grlića materice, stadijum FIGO IIIB, gradus G2/NG2. Sprovedena radikalna pelvična radioterapija uz istovremenu hemoterapiju cisplatinom (CDDP). Terapija završena juna 2021. Naknadne kontrole (MR i CT) nisu pokazale dokaze o relapsu.</p>
         </div>
       </div>
 
@@ -720,14 +749,14 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 October 2024</span>
-            <span class="badge badge-s">Stable</span>
+            <span class="tl-date" data-i18n="tl2-date">📅 oktobar 2024</span>
+            <span class="badge badge-s" data-i18n="tl2-badge">Stabilno</span>
           </div>
-          <h4>Lung Cancer — Diagnosis, Surgery and Chemotherapy</h4>
-          <p><strong>March–April 2024:</strong> Chest CT (07.03.) reveals a suspicious peribronchial nodule in the right lung. Bronchoscopy with biopsy (03.04.) confirms squamous cell lung carcinoma.</p>
-          <p><strong>Surgery — 29.05.2024:</strong> Right-sided thoracotomy with lower lobectomy and lymph node dissection. Tumor 55×50×45 mm, surgical margins clear (R0), 3 of 10 positive lymph nodes. Pathological stage: pT3 pN1.</p>
-          <p><strong>Chemotherapy — July–September 2024:</strong> 4 cycles of Taxol (paclitaxel) + Carboplatin (17.07. / 07.08. / 28.08. / 19.09.).</p>
-          <p><strong>Follow-up — 08.10.2024:</strong> CT of chest, abdomen and pelvis — no signs of tumour relapse. Condition stable.</p>
+          <h4 data-i18n="tl2-h4">Karcinom pluća — dijagnoza, hirurgija i hemoterapija</h4>
+          <p data-i18n="tl2-p1"><strong>Mart–april 2024:</strong> CT grudnog koša (07.03.) otkriva sumnjiv peribronhijalni nodus u desnom pluću. Bronhoskopijom sa biopsijom (03.04.) potvrđen planocelularni karcinom pluća.</p>
+          <p data-i18n="tl2-p2"><strong>Hirurgija — 29.05.2024:</strong> Desnostrana torakotomija s donjom lobektomijom i disekcijom limfnih čvorova. Tumor 55×50×45 mm, hirurške margine slobodne (R0), 3 od 10 pozitivnih limfnih čvorova. Patološki stadijum: pT3 pN1.</p>
+          <p data-i18n="tl2-p3"><strong>Hemoterapija — jul–septembar 2024:</strong> 4 ciklusa Taxol (paklitaksel) + Carboplatin (17.07. / 07.08. / 28.08. / 19.09.).</p>
+          <p data-i18n="tl2-p4"><strong>Kontrola — 08.10.2024:</strong> CT grudnog koša, abdomena i karlice — bez znakova tumorskog relapsa. Stanje stabilno.</p>
         </div>
       </div>
 
@@ -737,15 +766,15 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 February 2026</span>
-            <span class="badge badge-t">Ongoing Treatment</span>
+            <span class="tl-date" data-i18n="tl3-date">📅 februar 2026</span>
+            <span class="badge badge-t" data-i18n="tl3-badge">U toku lečenja</span>
           </div>
-          <h4>Lung Cancer Recurrence — New Diagnosis and Chemotherapy</h4>
-          <p><strong>03.02.2026 — Oncology Council:</strong> Diagnosed with malignant tumour of the bronchus and lung, upper lobe right (C34.3).</p>
-          <p><strong>11.02.2026 — PET-CT:</strong> Mediastinal adenopathies detected in the subcarinal region and immediately caudal to the resected bronchus of the lower lobe of the right lung, with intense FDG uptake — suggestive of metabolically active disease.</p>
-          <p><strong>Chemotherapy — Etoposide + Carboplatin:</strong><br>
-          Cycle 1: 18–20.02. &nbsp;|&nbsp; Cycle 2: 11–13.03.<br>
-          Cycle 3: 01–03.04. &nbsp;|&nbsp; Cycle 4: 22–24.04.</p>
+          <h4 data-i18n="tl3-h4">Recidiv karcinoma pluća — nova dijagnoza i hemoterapija</h4>
+          <p data-i18n="tl3-p1"><strong>03.02.2026 — Onkološki konzilijum:</strong> Dijagnostikovan maligni tumor bronha i pluća gornjeg režnja desno (C34.3).</p>
+          <p data-i18n="tl3-p2"><strong>11.02.2026 — PET-CT:</strong> Otkrivene medijastinalne adenopatije u subkarinalnoj regiji i neposredno kaudalno od reseciranog bronha donjeg režnja desnog pluća, sa intenzivnim nakupljanjem FDG — sugestivno za metabolički aktivnu bolest.</p>
+          <p data-i18n="tl3-p3"><strong>Hemoterapija — Etopozid + Carboplatin:</strong><br>
+          1. ciklus: 18–20.02. &nbsp;|&nbsp; 2. ciklus: 11–13.03.<br>
+          3. ciklus: 01–03.04. &nbsp;|&nbsp; 4. ciklus: 22–24.04.</p>
         </div>
       </div>
 
@@ -755,29 +784,29 @@
         </div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-date">📅 februar 2026</span>
-            <span class="badge badge-t">U toku lečenja</span>
+            <span class="tl-date" data-i18n="tl4-date">📅 februar 2026</span>
+            <span class="badge badge-t" data-i18n="tl4-badge">U toku lečenja</span>
           </div>
-          <h4>New Immunotherapy and New Hope</h4>
-          <p><strong>The programme consists of:</strong></p>
-          <p><strong>Medical evaluation:</strong><br>
-          Consultation with an oncology specialist.</p>
-          <p><strong>Vaccine treatment:</strong><br>
-          Nimotuzumab 24 ampoules (induction phase — 6 doses)<br>
-          Preparation of medical report and specialist recommendation.</p>
-          <p><strong>TOTAL COST OF SERVICES: <strong style="color:var(--amber)">$9,530.44</strong></strong></p>
-          <p>Maintenance phase: 1 dose every two weeks intravenously for 5 months, then applied monthly at the same dose until disease progression or regression.</p>
-          <p><strong>TOTAL COST OF SERVICES: <strong style="color:var(--amber)">$15,836.40</strong></strong></p>
-          <p>The combined total of the first two phases amounts to <strong style="color:var(--amber)">$25,366.84</strong></p>
-          <p>For the later phase, once a month, <strong style="color:var(--amber)">$1,588.40</strong> is required.</p>
-          <p>The patient must bring a thermos for transporting the medication.</p>
-          <p style="font-style:italic;color:var(--text-muted);font-size:.93rem;margin-top:1rem;border-top:1px solid rgba(42,124,124,.1);padding-top:1rem"><strong style="font-style:normal">General information about the Nimotuzumab HR3 vaccine:</strong><br>
-          Nimotuzumab HR3 is a humanised monoclonal antibody for the treatment of cancer. It was developed at the Centre for Molecular Immunology in Havana, Cuba. It targets the extracellular EGFR (epidermal growth factor receptor), causing competition between the ligand and receptor activation. The epidermal growth factor receptor (EGFR) is an important target in cancer therapy development. The combination of Nimotuzumab with conventional treatments such as radiotherapy and chemotherapy has been shown to improve objective response. HR3 is produced through genetic engineering and acts on the immune system by activating it, which in turn controls the growth of tumour cells — competing with proliferation factors at tumour cell receptors and reducing their growth rate. Nimotuzumab has a moderate affinity bond and high specificity for the region.</p>
+          <h4 data-i18n="tl4-h4">Nova imunoterapija i nova nada</h4>
+          <p data-i18n="tl4-p1"><strong>Program se sastoji iz:</strong></p>
+          <p data-i18n="tl4-p2"><strong>Medicinska evaluacija:</strong><br>
+          Konsultacije sa specijalistom onkologije.</p>
+          <p data-i18n="tl4-p3"><strong>Tretman vakcinama:</strong><br>
+          Nimotuzumab 24 ampule (faza indukcije 6 doza)<br>
+          Sastavljanje medicinskog izveštaja i preporuke specijaliste.</p>
+          <p data-i18n="tl4-p4"><strong>UKUPNA CENA USLUGA: <strong style="color:var(--amber)">9.530,44 $</strong></strong></p>
+          <p data-i18n="tl4-p5">Faza održavanja: 1 doza na svake dve nedelje intravenozno tokom 5 meseci, zatim se primenjuje mesečno istom dozom do progresije ili regresije bolesti.</p>
+          <p data-i18n="tl4-p6"><strong>UKUPNA CENA USLUGA: <strong style="color:var(--amber)">15.836,40 $</strong></strong></p>
+          <p data-i18n="tl4-p7">Što u ukupnom zbiru prve dve faze iznosi <strong style="color:var(--amber)">25.366,84 $</strong></p>
+          <p data-i18n="tl4-p8">Za kasniju fazu jednom mesečno treba izdvojiti <strong style="color:var(--amber)">1.588,40 $</strong>.</p>
+          <p data-i18n="tl4-p9">Pacijent mora doneti termos za prenos leka.</p>
+          <p data-i18n="tl4-nimotuzumab" style="font-style:italic;color:var(--text-muted);font-size:.93rem;margin-top:1rem;border-top:1px solid rgba(42,124,124,.1);padding-top:1rem"><strong style="font-style:normal">Opšte informacije o vakcini Nimotuzumab HR3:</strong><br>
+          Nimotuzumab HR3 je humanizovano monoklonsko antitelo za lečenje raka. Razvijen je u Centru za molekularnu imunologiju u Havani, Kuba. Cilja ekstracelularni EGFR (receptor epidermalnog faktora rasta). To uzrokuje kompeticiju između liganda i aktivacije receptora. Receptor epidermalnog faktora rasta (EGFR) je važna meta u razvoju terapija za rak. Pokazalo se da kombinacija Nimotuzumaba sa konvencionalnim tretmanima poput radioterapije i hemoterapije poboljšava objektivan odgovor. HR3 je dobijen genetskim inženjeringom i deluje na vaš imunološki sistem, aktivirajući ga, što zauzvrat kontroliše rast tumorskih ćelija, jer se takmiči sa faktorima proliferacije na receptorima tumorske ćelije, smanjujući brzinu njenog rasta. Nimotuzumab ima srednju afinitetnu vezu i visoku specifičnost za regiju.</p>
         </div>
       </div>
     </div>
 
-    <p class="health-note fi">🕐 Last updated: <strong id="last-update"></strong></p>
+    <p class="health-note fi">🕐 <span data-i18n="health-updated">Poslednje ažuriranje:</span> <strong id="last-update"></strong></p>
   </div>
 </section>
 
@@ -786,32 +815,32 @@
 <section id="kako-pomoci" aria-labelledby="h-pomoc">
   <div class="container">
     <div class="h-center fi" style="margin-bottom:2.75rem">
-      <span class="s-tag">Your Support</span>
-      <h2 id="h-pomoc">How You Can Help</h2>
+      <span class="s-tag" data-i18n="help-tag">Vaša podrška</span>
+      <h2 id="h-pomoc" data-i18n="help-h2">Kako možete pomoći</h2>
       <div class="s-bar center"></div>
-      <p class="s-sub center">Every form of support means the world to us. Choose what is easiest for you and become part of our fight.</p>
+      <p class="s-sub center" data-i18n="help-sub">Svaki oblik podrške znači beskrajno mnogo. Izaberite šta vam je najlakše i budite deo naše borbe.</p>
     </div>
 
     <div class="help-grid">
       <div class="help-card fi">
         <span class="help-icon" aria-hidden="true">💰</span>
-        <h3>Financial Donation</h3>
-        <p>Every contribution matters and goes directly toward treatment, medication, and medical costs. No donation is too small.</p>
-        <a href="#donacije" class="btn btn-primary btn-sm">Donate</a>
+        <h3 data-i18n="help1-h3">Finansijska donacija</h3>
+        <p data-i18n="help1-p">Svaki dinar je važan i direktno ide za lečenje, lekove i medicinske troškove. Nema premale donacije.</p>
+        <a href="#donacije" class="btn btn-primary btn-sm" data-i18n="help1-btn">Doniraj</a>
       </div>
 
       <div class="help-card fi d2">
         <span class="help-icon" aria-hidden="true">🤝</span>
-        <h3>Share the Story</h3>
-        <p>Help us reach more people. Share this page and help us spread the word about our fight.</p>
-        <button onclick="sharePage()" class="btn btn-primary btn-sm">Share</button>
+        <h3 data-i18n="help2-h3">Deli priču</h3>
+        <p data-i18n="help2-p">Pomozi nam da dođemo do više ljudi. Podeli ovu stranicu i pomozi nam da širimo reč o našoj borbi.</p>
+        <button onclick="sharePage()" class="btn btn-primary btn-sm" data-i18n="help2-btn">Podeli</button>
       </div>
 
       <div class="help-card fi d4">
         <span class="help-icon" aria-hidden="true">💌</span>
-        <h3>Words of Encouragement</h3>
-        <p>A message of support means so much. Send us a warm word — every encouragement is a source of strength in difficult moments.</p>
-        <a href="mailto:mikipupic76@gmail.com?subject=Support%20for%20Ana%20Pupić" class="btn btn-amber btn-sm">Send a Message</a>
+        <h3 data-i18n="help3-h3">Reč ohrabrenja</h3>
+        <p data-i18n="help3-p">Poruka podrške znači mnogo. Pošalji nam toplu reč — svaki podsticaj je izvor snage u teškim momentima.</p>
+        <a href="mailto:mikipupic76@gmail.com?subject=Podrška%20za%20Anu%20Pupić" class="btn btn-amber btn-sm" data-i18n="help3-btn" id="help3-btn-el">Pošalji poruku</a>
       </div>
     </div>
   </div>
@@ -822,111 +851,109 @@
 <section id="donacije" aria-labelledby="h-donacije">
   <div class="container">
     <div class="h-center fi" style="margin-bottom:2.75rem">
-      <span class="s-tag">Help Us</span>
-      <h2 id="h-donacije">Help Ana Pupić</h2>
+      <span class="s-tag" data-i18n="don-tag">Pomozi nam</span>
+      <h2 id="h-donacije" data-i18n="don-h2">Pomozi Ani Pupić</h2>
       <div class="s-bar center"></div>
-      <p class="s-sub center">All collected funds are used <strong>exclusively</strong> for treatment, medication, and medical costs. Thank you from the bottom of our hearts.</p>
+      <p class="s-sub center" data-i18n="don-sub">Sva prikupljena sredstva koriste se <strong>isključivo</strong> za lečenje, nabavku lekova i medicinske troškove. Hvala vam iz sveg srca.</p>
     </div>
 
     <div id="pay-info" class="pay-box fi">
         <h3>
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          Payment Details
+          <span data-i18n="pay-title">Podaci za uplatu</span>
         </h3>
 
         <div class="pay-inner-grid">
 
-          <!-- ── LEVO: računi + telefoni ── -->
           <div class="pay-col-left">
             <div class="pay-row">
-              <div class="pay-label">Recipient</div>
+              <div class="pay-label" data-i18n="pay-recipient-lbl">Primalac</div>
               <div class="pay-field">
                 <span class="pay-val">Ana Pupić</span>
               </div>
             </div>
 
-            <div class="pay-section-lbl">🇷🇸 RSD Account (Serbia)</div>
+            <div class="pay-section-lbl" data-i18n="pay-rsd-section">🇷🇸 Dinarski račun (RSD)</div>
             <div class="pay-row">
-              <div class="pay-label">Account Number</div>
+              <div class="pay-label" data-i18n="pay-acct-lbl-1">Broj računa</div>
               <div class="pay-field">
                 <span class="pay-val" id="acc-rsd">325-9300500192231-04</span>
-                <button class="copy-btn" onclick="doCopy('acc-rsd',this)" aria-label="Copy RSD account number">
+                <button class="copy-btn" onclick="doCopy('acc-rsd',this)" aria-label="Kopiraj dinarski broj računa">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  Copy
+                  <span data-i18n="copy-lbl">Kopiraj</span>
                 </button>
               </div>
             </div>
             <div class="pay-row">
-              <div class="pay-label">Payment Purpose</div>
+              <div class="pay-label" data-i18n="pay-purpose-lbl-1">Svrha uplate</div>
               <div class="pay-field">
-                <span class="pay-val">Donation for Ana Pupić's treatment</span>
+                <span class="pay-val" data-i18n="pay-purpose-val-1">Donacija za lečenje Ane Pupić</span>
               </div>
             </div>
 
-            <div class="pay-section-lbl eur">🇪🇺 EUR Account</div>
+            <div class="pay-section-lbl eur" data-i18n="pay-eur-section">🇪🇺 Devizni račun (EUR)</div>
             <div class="pay-row">
-              <div class="pay-label">Account Number</div>
+              <div class="pay-label" data-i18n="pay-acct-lbl-2">Broj računa</div>
               <div class="pay-field">
                 <span class="pay-val" id="acc-eur">325-9341500294226-43</span>
-                <button class="copy-btn" onclick="doCopy('acc-eur',this)" aria-label="Copy EUR account number">
+                <button class="copy-btn" onclick="doCopy('acc-eur',this)" aria-label="Kopiraj devizni broj računa">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  Copy
+                  <span data-i18n="copy-lbl">Kopiraj</span>
                 </button>
               </div>
             </div>
             <div class="pay-row">
-              <div class="pay-label">Payment Purpose</div>
+              <div class="pay-label" data-i18n="pay-purpose-lbl-2">Svrha uplate</div>
               <div class="pay-field">
                 <span class="pay-val">Donation for Ana Pupić treatment</span>
               </div>
             </div>
 
-            <div class="pay-section-lbl tel">📞 Donation Contact</div>
-            <a href="tel:+381641137704" class="tel-row" aria-label="Call +381 64 113 7704">
+            <div class="pay-section-lbl tel" data-i18n="pay-contact-section">📞 Kontakt za donacije</div>
+            <a href="tel:+381641137704" class="tel-row" aria-label="Pozovi +381 64 113 7704">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               <span class="tel-link">+381 64 113 7704</span>
-              <button class="copy-btn" onclick="event.preventDefault();doCopy('tel1',this)" aria-label="Copy phone number">
+              <button class="copy-btn" onclick="event.preventDefault();doCopy('tel1',this)" aria-label="Kopiraj broj telefona">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                Copy
+                <span data-i18n="copy-lbl">Kopiraj</span>
               </button>
               <span id="tel1" style="display:none">+381641137704</span>
             </a>
-            <a href="tel:+381641595986" class="tel-row" aria-label="Call +381 64 159 5986">
+            <a href="tel:+381641595986" class="tel-row" aria-label="Pozovi +381 64 159 5986">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               <span class="tel-link">+381 64 159 5986</span>
-              <button class="copy-btn" onclick="event.preventDefault();doCopy('tel2',this)" aria-label="Copy phone number">
+              <button class="copy-btn" onclick="event.preventDefault();doCopy('tel2',this)" aria-label="Kopiraj broj telefona">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                Copy
+                <span data-i18n="copy-lbl">Kopiraj</span>
               </button>
               <span id="tel2" style="display:none">+381641595986</span>
             </a>
           </div>
 
-          <!-- ── DESNO: QR kod + PayPal ── -->
           <div class="pay-col-right" style="padding-top:2.5rem">
             <div class="qr-zone" role="group" aria-label="IPS QR kod za dinarsku uplatu">
-              <p class="qr-zone-title">📲 Scan and Pay — IPS QR</p>
-              <div class="qr-amounts" role="group" aria-label="Select donation amount">
-                <button class="qr-amt active" onclick="setQRAmt(500,this)"  aria-label="500 dinars">500</button>
-                <button class="qr-amt"        onclick="setQRAmt(1000,this)" aria-label="1000 dinars">1,000</button>
-                <button class="qr-amt"        onclick="setQRAmt(2000,this)" aria-label="2000 dinars">2,000</button>
-                <button class="qr-amt"        onclick="setQRAmt(5000,this)" aria-label="5000 dinars">5,000</button>
+              <p class="qr-zone-title" data-i18n="qr-title">📲 Skeniraj i uplati — IPS QR</p>
+              <div class="qr-amounts" role="group" aria-label="Izaberi iznos donacije">
+                <button class="qr-amt active" onclick="setQRAmt(500,this)"  aria-label="500 dinara">500</button>
+                <button class="qr-amt"        onclick="setQRAmt(1000,this)" aria-label="1000 dinara">1.000</button>
+                <button class="qr-amt"        onclick="setQRAmt(2000,this)" aria-label="2000 dinara">2.000</button>
+                <button class="qr-amt"        onclick="setQRAmt(5000,this)" aria-label="5000 dinara">5.000</button>
               </div>
               <div class="qr-custom">
-                <input type="number" id="qr-input" placeholder="Other amount (RSD)" min="100" max="999999" aria-label="Enter donation amount">
-                <button onclick="setQRCustom()" aria-label="Generate QR for entered amount">OK</button>
+                <input type="number" id="qr-input" placeholder="Drugi iznos (RSD)" min="100" max="999999" aria-label="Unesi iznos donacije" data-i18n-placeholder="qr-placeholder">
+                <button onclick="setQRCustom()" aria-label="Generiši QR za uneseni iznos">OK</button>
               </div>
               <div id="qr-canvas" aria-live="polite">
-                <img id="qr-img" src="" alt="IPS QR code for payment" width="180" height="180" style="border-radius:10px;border:3px solid rgba(42,124,124,.15);display:block;margin:0 auto;">
+                <img id="qr-img" src="" alt="IPS QR kod za uplatu" width="180" height="180" style="border-radius:10px;border:3px solid rgba(42,124,124,.15);display:block;margin:0 auto;">
               </div>
               <p class="qr-amount-display" id="qr-amt-label">500 RSD</p>
-              <p class="qr-lbl">IPS QR • RSD Account • Compatible with all Serbian banking apps</p>
+              <p class="qr-lbl" data-i18n="qr-lbl">IPS QR • Dinarski račun • Kompatibilno sa svim srpskim bankarskim aplikacijama</p>
             </div>
 
             <div class="pay-label" style="margin-bottom:.35rem">PayPal</div>
             <div class="paypal-field">
               <span class="pp-logo">Pay<span>Pal</span></span>
-              <span class="pay-val" id="pp" style="font-family:var(--font-b);font-size:.95rem;color:var(--text-muted);font-style:italic;letter-spacing:normal">USKORO</span>
+              <span class="pay-val" id="pp" style="font-family:var(--font-b);font-size:.95rem;color:var(--text-muted);font-style:italic;letter-spacing:normal" data-i18n="paypal-soon">USKORO</span>
             </div>
           </div>
 
@@ -935,32 +962,32 @@
 
     <div style="display:flex;flex-direction:column;gap:1rem;margin-top:2rem">
     <div class="collected-box fi">
-      <h3>💚 Funds Collected</h3>
+      <h3 data-i18n="collected-h3">💚 Prikupljena sredstva</h3>
       <div class="collected-grid">
         <div class="collected-row">
-          <span class="collected-lbl">🇷🇸 RSD Account</span>
-          <span class="collected-val">0.00 RSD</span>
+          <span class="collected-lbl" data-i18n="collected-rsd">🇷🇸 Dinarski (RSD)</span>
+          <span class="collected-val">0,00 RSD</span>
         </div>
         <div class="collected-row">
-          <span class="collected-lbl">🇪🇺 EUR Account</span>
-          <span class="collected-val">0.00 €</span>
+          <span class="collected-lbl" data-i18n="collected-eur">🇪🇺 Devizni (EUR)</span>
+          <span class="collected-val">0,00 €</span>
         </div>
         <div class="collected-row">
           <span class="collected-lbl">PayPal</span>
-          <span class="collected-val">0.00 €</span>
+          <span class="collected-val">0,00 €</span>
         </div>
       </div>
-      <p class="collected-note">Last updated: <strong>[date]</strong></p>
+      <p class="collected-note"><span data-i18n="collected-note-lbl">Poslednje ažuriranje:</span> <strong>[datum]</strong></p>
     </div>
 
     <div class="transp fi" role="note">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <p><strong>All funds are used exclusively for treatment.</strong> We will regularly publish transparent reports on the use of collected funds.</p>
+      <p data-i18n="transp-text"><strong>Sva sredstva se koriste isključivo za lečenje.</strong> Redovno ćemo objavljivati transparentne izveštaje o upotrebi prikupljenih sredstava.</p>
     </div>
 
     <div class="quote-strip fi">
-      <p>"No donation is too small. No love is too small."</p>
-      <p>Every contribution, every share, every kind word — it is part of our shared victory.</p>
+      <p data-i18n="quote-p1">"Nema premale donacije. Nema male ljubavi."</p>
+      <p data-i18n="quote-p2">Svaki prilog, svaka podela, svaka molba — to je deo naše zajedničke pobede.</p>
     </div>
     </div>
   </div>
@@ -971,25 +998,25 @@
 <footer role="contentinfo">
   <div class="container">
     <div class="foot-layout">
-      <img src="ribbon.png" alt="White ribbon — lung cancer awareness" class="foot-ribbon">
+      <img src="ribbon.png" alt="Bela vrpca — svest o karcinomu pluća" class="foot-ribbon">
     <div class="foot-inner">
       <div class="foot-logo">Ana <span>Pupić</span></div>
 
-      <p class="foot-thanks">
-        <strong>Thank you from the bottom of our hearts</strong> for every form of support.<br>
-        Your kindness and love are a beacon of light in the hardest moments.
+      <p class="foot-thanks" data-i18n="foot-thanks">
+        <strong>Hvala vam iz dna srca</strong> na svakom obliku podrške.<br>
+        Vaša dobrota i ljubav su svetionik u najtežim trenucima.
       </p>
 
-      <nav class="social-row" aria-label="Share on social media">
-        <a href="https://www.facebook.com/share/1BcuUqqQUv/" target="_blank" rel="noopener noreferrer" class="soc-btn soc-fb" aria-label="Visit Ana Pupić's Facebook page">
+      <nav class="social-row" aria-label="Podeli na društvenim mrežama">
+        <a href="https://www.facebook.com/share/1BcuUqqQUv/" target="_blank" rel="noopener noreferrer" class="soc-btn soc-fb" aria-label="Facebook">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           Facebook
         </a>
-        <a href="https://wa.me/381641595986" target="_blank" rel="noopener noreferrer" class="soc-btn soc-wa" aria-label="Contact us on WhatsApp">
+        <a href="https://wa.me/381641595986" target="_blank" rel="noopener noreferrer" class="soc-btn soc-wa" aria-label="WhatsApp">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           WhatsApp
         </a>
-        <a href="https://www.instagram.com/pupicmiki?igsh=MmF6Y3ZoNGxqYnd6" target="_blank" rel="noopener noreferrer" class="soc-btn soc-ig" aria-label="Visit Ana Pupić's Instagram profile">
+        <a href="https://www.instagram.com/pupicmiki?igsh=MmF6Y3ZoNGxqYnd6" target="_blank" rel="noopener noreferrer" class="soc-btn soc-ig" aria-label="Instagram">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
           Instagram
         </a>
@@ -998,9 +1025,8 @@
       <div class="foot-hr"></div>
 
       <div class="foot-bottom">
-        <!-- ▶ ZAMENI godinom -->
-        <p>© <span id="footer-year"></span> Ana Pupić. Page created for humanitarian purposes.</p>
-        <p class="foot-disc">All collected funds go directly toward treatment and medication. Donations are voluntary and do not imply any compensation or right to a refund. We thank all donors for their selfless support.</p>
+        <p data-i18n="foot-copy">© <span id="footer-year"></span> Ana Pupić. Stranica kreirana u humanitarne svrhe.</p>
+        <p class="foot-disc" data-i18n="foot-disc">Sva prikupljena sredstva idu direktno na lečenje i nabavku lekova. Donacije su dobrovoljne i ne podrazumevaju nikakvu naknadu niti pravo na povraćaj. Zahvaljujemo se svim donatorima na nesebičnoj podršci.</p>
         <p class="foot-disc" style="margin-top:.6rem">WebDesign <a href="https://rondo.rs" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.45);text-decoration:none">RONDO.RS</a></p>
       </div>
     </div>
@@ -1010,7 +1036,138 @@
 
 
 <script>
-  /* Navigation */
+  /* ── i18n ───────────────────────────────────────────────────── */
+  const TRANS_SR = {};
+
+  const TRANS_EN = {
+    'nav-story':       'Story',
+    'nav-health':      'Health',
+    'nav-help':        'How to Help',
+    'nav-donate':      'Donate',
+    'mob-donate':      '♥ Donate',
+    'hero-eyebrow':    'Fight and Hope',
+    'hero-title':      'A Full <span>Breath</span>',
+    'hero-desc':       'A story of courage, hope, and love that never ends.<br>Help us continue this fight together.',
+    'hero-btn-learn':  'Learn More',
+    'hero-btn-donate': 'Donate Now',
+    'stat-months':     'Months of Treatment',
+    'stat-supporters': 'Supporters',
+    'stat-cycles':     'Treatment Cycles',
+    'story-tag':  'My Story',
+    'story-h2':   'Every Day Is a Gift to Cherish',
+    'story-p1':   'The diagnosis of lung cancer came like a bolt out of the blue. In one moment, an entire life changed — plans, dreams, daily routines. But what could not change was the will to fight, to love, to live wholeheartedly every day that comes.',
+    'story-pullq':'As long as there is hope and support, the fight continues. Every donation, every kind word — it is not a small thing. It is oxygen for the soul.',
+    'story-p2':   'Months of treatment brought challenges I could never have imagined. Chemotherapy, hospital corridors, exhaustion that reaches to the bone — but also the boundless warmth of family, friends, and strangers who became guardian angels in the hardest moments.',
+    'story-p3':   'This page was created out of a need to share our journey — the good days and the bad — and to thank everyone who stands by us. Your help, however large or small, directly contributes to the treatments and medicines that give us a chance for tomorrow.',
+    'family-h3':  'A Life Beyond Price:<br>Let\'s Help Ana Win for the Third Time',
+    'family-p1':  'There are battles a person does not choose, but must accept. Our Ana Pupić is currently going through her hardest, third fight against this terrible disease. Having already shown incredible strength twice, the lung cancer has returned — this time even more insidious and aggressive. But despite everything, Ana is still here. She does not give up, because giving up has never been an option for her.',
+    'family-p2':  'Ana is a mother of three children. Every breath she takes, every new day, and every therapy she receives has only one goal — to stay with her children, to watch them grow, and to give them the love only a mother can give.',
+    'family-p3':  '<strong>A strength that inspires, but that also needs support</strong><br>The previous battles have pushed Ana to her limits, both physically and emotionally. Her body is tired, but the spirit of this brave woman refuses to back down. However, in this round of treatment, Ana can no longer do it alone. She needs us.',
+    'family-p4':  'She now needs our combined strength so that she can continue her treatment and be given a chance at life. Every donation, every shared story, and every word of support is wind at her back and a step closer to her recovery.',
+    'family-p5':  'Let us show Ana that she is not alone in this round.<br>Let us help a mother win for the third time, because her children and her family deserve to have her by their side.',
+    'health-tag': 'Updates',
+    'health-h2':  'Health Status',
+    'health-sub': 'We share every update transparently and with love. Thank you for being with us.',
+    'tl1-date':  '📅 June 2021',
+    'tl1-badge': 'Treatment Completed',
+    'tl1-h4':    'Cervical Cancer — Diagnosis and Treatment',
+    'tl1-p':     'Diagnosed with invasive squamous cell carcinoma of the cervix, stage FIGO IIIB, grade G2/NG2. Radical pelvic radiotherapy was conducted with concurrent chemotherapy using cisplatin (CDDP). Treatment completed in June 2021. Subsequent follow-ups (MRI and CT) showed no evidence of relapse.',
+    'tl2-date':  '📅 October 2024',
+    'tl2-badge': 'Stable',
+    'tl2-h4':    'Lung Cancer — Diagnosis, Surgery and Chemotherapy',
+    'tl2-p1':    '<strong>March–April 2024:</strong> Chest CT (07.03.) reveals a suspicious peribronchial nodule in the right lung. Bronchoscopy with biopsy (03.04.) confirms squamous cell lung carcinoma.',
+    'tl2-p2':    '<strong>Surgery — 29.05.2024:</strong> Right-sided thoracotomy with lower lobectomy and lymph node dissection. Tumour 55×50×45 mm, surgical margins clear (R0), 3 of 10 positive lymph nodes. Pathological stage: pT3 pN1.',
+    'tl2-p3':    '<strong>Chemotherapy — July–September 2024:</strong> 4 cycles of Taxol (paclitaxel) + Carboplatin (17.07. / 07.08. / 28.08. / 19.09.).',
+    'tl2-p4':    '<strong>Follow-up — 08.10.2024:</strong> CT of chest, abdomen and pelvis — no signs of tumour relapse. Condition stable.',
+    'tl3-date':  '📅 February 2026',
+    'tl3-badge': 'Ongoing Treatment',
+    'tl3-h4':    'Lung Cancer Recurrence — New Diagnosis and Chemotherapy',
+    'tl3-p1':    '<strong>03.02.2026 — Oncology Council:</strong> Diagnosed with malignant tumour of the bronchus and lung, upper lobe right (C34.3).',
+    'tl3-p2':    '<strong>11.02.2026 — PET-CT:</strong> Mediastinal adenopathies detected in the subcarinal region and immediately caudal to the resected bronchus of the lower lobe of the right lung, with intense FDG uptake — suggestive of metabolically active disease.',
+    'tl3-p3':    '<strong>Chemotherapy — Etoposide + Carboplatin:</strong><br>Cycle 1: 18–20.02. &nbsp;|&nbsp; Cycle 2: 11–13.03.<br>Cycle 3: 01–03.04. &nbsp;|&nbsp; Cycle 4: 22–24.04.',
+    'tl4-date':  '📅 February 2026',
+    'tl4-badge': 'Ongoing Treatment',
+    'tl4-h4':    'New Immunotherapy and New Hope',
+    'tl4-p1':    '<strong>The programme consists of:</strong>',
+    'tl4-p2':    '<strong>Medical evaluation:</strong><br>Consultation with an oncology specialist.',
+    'tl4-p3':    '<strong>Vaccine treatment:</strong><br>Nimotuzumab 24 ampoules (induction phase — 6 doses)<br>Preparation of medical report and specialist recommendation.',
+    'tl4-p4':    '<strong>TOTAL COST OF SERVICES: <strong style="color:var(--amber)">$9,530.44</strong></strong>',
+    'tl4-p5':    'Maintenance phase: 1 dose every two weeks intravenously for 5 months, then applied monthly at the same dose until disease progression or regression.',
+    'tl4-p6':    '<strong>TOTAL COST OF SERVICES: <strong style="color:var(--amber)">$15,836.40</strong></strong>',
+    'tl4-p7':    'The combined total of the first two phases amounts to <strong style="color:var(--amber)">$25,366.84</strong>',
+    'tl4-p8':    'For the later phase, once a month, <strong style="color:var(--amber)">$1,588.40</strong> is required.',
+    'tl4-p9':    'The patient must bring a thermos for transporting the medication.',
+    'tl4-nimotuzumab': '<strong style="font-style:normal">General information about the Nimotuzumab HR3 vaccine:</strong><br>Nimotuzumab HR3 is a humanised monoclonal antibody for the treatment of cancer. It was developed at the Centre for Molecular Immunology in Havana, Cuba. It targets the extracellular EGFR (epidermal growth factor receptor), causing competition between the ligand and receptor activation. The epidermal growth factor receptor (EGFR) is an important target in cancer therapy development. The combination of Nimotuzumab with conventional treatments such as radiotherapy and chemotherapy has been shown to improve objective response. HR3 is produced through genetic engineering and acts on the immune system by activating it, which in turn controls the growth of tumour cells — competing with proliferation factors at tumour cell receptors and reducing their growth rate. Nimotuzumab has a moderate affinity bond and high specificity for the region.',
+    'health-updated': 'Last updated:',
+    'help-tag':   'Your Support',
+    'help-h2':    'How You Can Help',
+    'help-sub':   'Every form of support means the world to us. Choose what is easiest for you and become part of our fight.',
+    'help1-h3':   'Financial Donation',
+    'help1-p':    'Every contribution matters and goes directly toward treatment, medication, and medical costs. No donation is too small.',
+    'help1-btn':  'Donate',
+    'help2-h3':   'Share the Story',
+    'help2-p':    'Help us reach more people. Share this page and help us spread the word about our fight.',
+    'help2-btn':  'Share',
+    'help3-h3':   'Words of Encouragement',
+    'help3-p':    'A message of support means so much. Send us a warm word — every encouragement is a source of strength in difficult moments.',
+    'help3-btn':  'Send a Message',
+    'don-tag':    'Help Us',
+    'don-h2':     'Help Ana Pupić',
+    'don-sub':    'All collected funds are used <strong>exclusively</strong> for treatment, medication, and medical costs. Thank you from the bottom of our hearts.',
+    'pay-title':          'Payment Details',
+    'pay-recipient-lbl':  'Recipient',
+    'pay-rsd-section':    '🇷🇸 RSD Account (Serbia)',
+    'pay-acct-lbl-1':     'Account Number',
+    'pay-purpose-lbl-1':  'Payment Purpose',
+    'pay-purpose-val-1':  'Donation for Ana Pupić\'s treatment',
+    'pay-eur-section':    '🇪🇺 EUR Account',
+    'pay-acct-lbl-2':     'Account Number',
+    'pay-purpose-lbl-2':  'Payment Purpose',
+    'pay-contact-section':'📞 Donation Contact',
+    'copy-lbl':     'Copy',
+    'qr-title':     '📲 Scan and Pay — IPS QR',
+    'qr-placeholder':'Other amount (RSD)',
+    'qr-lbl':       'IPS QR • RSD Account • Compatible with all Serbian banking apps',
+    'paypal-soon':  'COMING SOON',
+    'collected-h3':       '💚 Funds Collected',
+    'collected-rsd':      '🇷🇸 RSD Account',
+    'collected-eur':      '🇪🇺 EUR Account',
+    'collected-note-lbl': 'Last updated:',
+    'transp-text':  '<strong>All funds are used exclusively for treatment.</strong> We will regularly publish transparent reports on the use of collected funds.',
+    'quote-p1':     '"No donation is too small. No love is too small."',
+    'quote-p2':     'Every contribution, every share, every kind word — it is part of our shared victory.',
+    'foot-thanks':  '<strong>Thank you from the bottom of our hearts</strong> for every form of support.<br>Your kindness and love are a beacon of light in the hardest moments.',
+    'foot-copy':    '© <span id="footer-year"></span> Ana Pupić. Page created for humanitarian purposes.',
+    'foot-disc':    'All collected funds go directly toward treatment and medication. Donations are voluntary and do not imply any compensation or right to a refund. We thank all donors for their selfless support.',
+  };
+
+  /* Capture SR defaults from HTML on load */
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    TRANS_SR[el.dataset.i18n] = el.innerHTML;
+  });
+
+  function setLang(lang) {
+    const trans = lang === 'en' ? TRANS_EN : TRANS_SR;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (trans[key] !== undefined) el.innerHTML = trans[key];
+    });
+    /* placeholder for QR input */
+    const qrInput = document.getElementById('qr-input');
+    if (qrInput) qrInput.placeholder = lang === 'en' ? 'Other amount (RSD)' : 'Drugi iznos (RSD)';
+    /* footer year re-stamp (innerHTML replacement clears it) */
+    const fy = document.getElementById('footer-year');
+    if (fy) fy.textContent = new Date().getFullYear();
+    /* update lang/html attributes */
+    document.documentElement.lang = lang;
+    document.title = lang === 'en' ? 'A Full Breath — Ana Pupić' : 'Za udah Punim Plućima — Ana Pupić';
+    /* toggle active state on all lang buttons */
+    document.querySelectorAll('.lang-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.lang === lang));
+    localStorage.setItem('lang', lang);
+  }
+
+  /* ── Navigation ─────────────────────────────────────────────── */
   const nav = document.getElementById('nav');
   const ham = document.getElementById('ham');
   const mob = document.getElementById('mob');
@@ -1044,7 +1201,7 @@
     }
   });
 
-  /* Scroll fade-in */
+  /* ── Scroll fade-in ─────────────────────────────────────────── */
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
@@ -1055,31 +1212,36 @@
   document.querySelector('#hero .fi')?.classList.add('on');
   document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-  /* Poslednje ažuriranje — automatski iz datuma izmjene fajla */
+  /* Last modified date */
   (function() {
     const d = new Date(document.lastModified);
     const opts = { day: 'numeric', month: 'long', year: 'numeric' };
-    document.getElementById('last-update').textContent = d.toLocaleDateString('en-GB', opts);
+    document.getElementById('last-update').textContent = d.toLocaleDateString('sr-Latn-RS', opts);
   })();
 
-  /* Meseci lečenja — dinamički od maja 2021. */
+  /* Months of treatment — dynamic from May 2021 */
   (function() {
-    const start = new Date(2021, 4, 1); // maj 2021
+    const start = new Date(2021, 4, 1);
     const now = new Date();
     const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
     document.getElementById('stat-meseci').textContent = months;
   })();
 
-  /* Ciklusi terapije — ažuriraj kad se doda novi ciklus */
   document.getElementById('stat-ciklusi').textContent = 8;
   renderQR(500);
 
-  /* Copy to clipboard */
+  /* Apply saved language preference */
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang === 'en') setLang('en');
+
+  /* ── Copy to clipboard ──────────────────────────────────────── */
   function doCopy(id, btn) {
     const text = document.getElementById(id).textContent.trim();
     const original = btn.innerHTML;
+    const currentLang = localStorage.getItem('lang') || 'sr';
+    const okLabel = currentLang === 'en' ? 'Copied!' : 'Kopirano!';
     const succeed = () => {
-      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ${okLabel}`;
       btn.classList.add('ok');
       setTimeout(() => { btn.innerHTML = original; btn.classList.remove('ok'); }, 2200);
     };
@@ -1098,15 +1260,8 @@
     document.body.removeChild(ta);
   }
 
-  /* Amount selector */
-  function selAmt(btn) {
-    btn.closest('.amt-grid').querySelectorAll('.amt-btn').forEach(b => b.classList.remove('sel'));
-    btn.classList.add('sel');
-  }
-
-  /* ── IPS QR kod (api.qrserver.com — nema JS biblioteke) ────── */
+  /* ── IPS QR kod ─────────────────────────────────────────────── */
   function buildIPS(amount) {
-    // NBS IPS QR standard — decimalni separator je ZAREZ, ne tačka
     return [
       'K:PR','V:01','C:1',
       'R:325930050019223104',
@@ -1143,20 +1298,26 @@
     if (e.key === 'Enter') setQRCustom();
   });
 
-  /* Share */
+  /* ── Share ──────────────────────────────────────────────────── */
   function sharePage() {
+    const lang = localStorage.getItem('lang') || 'sr';
+    const shareData = lang === 'en'
+      ? { title: 'A Full Breath — Ana Pupić', text: 'Help Ana Pupić in her fight against lung cancer. Every donation matters.' }
+      : { title: 'Za Udah Punim Plućima — Ana Pupić', text: 'Pomozite Anu Pupić u borbi protiv raka pluća. Svaka donacija je važna.' };
     if (navigator.share) {
-      navigator.share({
-        title: 'A Full Breath — Ana Pupić',
-        text: 'Help Ana Pupić in her fight against lung cancer. Every donation matters.',
-        url: location.href
-      }).catch(() => {});
+      navigator.share({ ...shareData, url: location.href }).catch(() => {});
     } else {
+      const alertMsg = lang === 'en' ? 'Page link copied!\nShare it with your friends and family.' : 'Link stranice je kopiran!\nPodeli ga sa prijateljima i porodicom.';
+      const promptMsg = lang === 'en' ? 'Copy the page link:' : 'Kopiraj link stranice:';
       navigator.clipboard?.writeText(location.href).then(() => {
-        alert('Page link copied!\nShare it with your friends and family.');
-      }).catch(() => { window.prompt('Copy the page link:', location.href); });
+        alert(alertMsg);
+      }).catch(() => { window.prompt(promptMsg, location.href); });
     }
   }
+
+  /* ── Update help3 mailto subject on lang change ─────────────── */
+  const _origSetLang = setLang;
+  // (help3 email subject already handled via data-i18n on the element)
 </script>
 
 </body>
